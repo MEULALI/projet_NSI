@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>projet</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#le-langage-sql">Le langage SQL</a>
+<ul>
+<li><a href="#partie-1-—-approche-générale-du-sujet">Partie 1 — Approche générale du sujet</a></li>
+<li><a href="#partie-2-—-détail-dune-séquence--les-jointures-sql-séance-5">Partie 2 — Détail d’une séquence : les jointures SQL (Séance 5)</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="le-langage-sql">Le langage SQL</h1>
+<p><strong>Niveau :</strong> Terminale, spécialité Numérique et Sciences Informatiques (NSI)<br>
+<strong>Thème :</strong> Bases de données<br>
+<strong>Réalisé par :</strong></p>
+<p>Mme DLIMI.I<br>
+Mme CHERNI.M<br>
+M.HELLALI.A</p>
+<hr>
+<h2 id="partie-1-—-approche-générale-du-sujet">Partie 1 — Approche générale du sujet</h2>
+<h3 id="positionnement-du-sujet-dans-le-programme">1.1 Positionnement du sujet dans le programme</h3>
+<p>Le thème « bases de données relationnelles » s’inscrit dans le bloc de contenus <strong>« Structures de données »</strong> et <strong>« Langages et programmation »</strong>, et figure explicitement au programme officiel :</p>
+<blockquote>
+<p>« Contenus : structure de données : bases de données relationnelles ; schéma de base de données ; langage SQL : sélection, projection, jointure, modification des tables. »</p>
+</blockquote>
+<p>Ce thème s’adosse aux compétences du socle, notamment :</p>
+<ul>
+<li><strong>Sélectionner un traitement en fonction du problème</strong> : choisir entre un fichier texte, un fichier CSV ou une base de données ;</li>
+<li><strong>Traduire un traitement algorithmique</strong> : exprimer une requête SQL à partir d’un besoin exprimé en langage naturel ;</li>
+<li><strong>Évaluer un traitement</strong> : comprendre l’impact d’une indexation, mesurer la complexité d’une recherche.</li>
+</ul>
+<p><strong>Prérequis mobilisés</strong> (issus de la classe de première) :</p>
+<ul>
+<li>types construits : tableaux, dictionnaires, enregistrements (p-uplets) ;</li>
+<li>fichiers CSV et traitement tabulaire de données ;</li>
+<li>notion de variable, de fonction, de tests.</li>
+</ul>
+<p><strong>Prolongements</strong> : ce thème prépare directement les élèves aux études d’informatique (modélisation de données, SGBD) et peut aider aussi pour le choix d’un sujet au grand oral (par exemple « comment un site de vente en ligne gère-t-il ses données ? »). Il peut être relié transversalement au thème « architectures matérielles » (persistance des données) et à l’histoire de l’informatique (modèle relationnel d’E. Codd, 1970).</p>
+<h3 id="notions-à-faire-passer">1.2 Notions à faire passer</h3>
+<ol>
+<li><strong>Modèle relationnel</strong> : relation (table), attribut, domaine, enregistrement (n-uplet), clé primaire, clé étrangère, schéma relationnel.</li>
+<li><strong>Contraintes d’intégrité</strong> : unicité de la clé primaire, référentielle (une clé étrangère doit exister dans la table référencée).</li>
+<li><strong>Modélisation</strong> : passage d’un diagramme de classes ou d’un schéma entité-association au schéma relationnel ; choix des clés.</li>
+<li><strong>Langage SQL</strong> :
+<ul>
+<li>interrogation : <code>SELECT</code> (projection), <code>WHERE</code> (sélection), <code>ORDER BY</code>, fonctions d’agrégation (<code>COUNT</code>, <code>SUM</code>, <code>AVG</code>, <code>MIN</code>, <code>MAX</code>), <code>GROUP BY</code> / <code>HAVING</code>, <code>DISTINCT</code> ;</li>
+<li>jointures : <code>JOIN ... ON ...</code> ;</li>
+<li>modification : <code>INSERT INTO</code>, <code>UPDATE</code>, <code>DELETE FROM</code> ;</li>
+<li>définition : <code>CREATE TABLE</code>, contraintes <code>PRIMARY KEY</code>, <code>FOREIGN KEY</code>.</li>
+</ul>
+</li>
+<li><strong>Persistance des données</strong> : distinction fichier / base de données ; rôle du SGBD (SQLite).</li>
+<li><strong>Ouverture culturelle</strong> : données personnelles, RGPD, sécurité des données (injections SQL évoquées en fin de chapitre).</li>
+</ol>
+<h3 id="progression-envisagée">1.3 Progression envisagée</h3>
+
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Séance</th>
+<th>Contenus</th>
+<th>Durée</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>S1</td>
+<td>Introduction débranchée : pourquoi une base de données ? Modélisation d’un problème réel (médiathèque)</td>
+<td>1 h</td>
+</tr>
+<tr>
+<td>2</td>
+<td>S2</td>
+<td>Le modèle relationnel : tables, attributs, clés primaires et étrangères ; schéma relationnel</td>
+<td>2 h</td>
+</tr>
+<tr>
+<td>3</td>
+<td>S3</td>
+<td>Découverte de SQL : projection et sélection (<code>SELECT</code>, <code>WHERE</code>, <code>ORDER BY</code>)</td>
+<td>2 h</td>
+</tr>
+<tr>
+<td>4</td>
+<td>S4</td>
+<td>Agrégations et tris (<code>GROUP BY</code>, <code>HAVING</code>, fonctions d’agrégation)</td>
+<td>2 h</td>
+</tr>
+<tr>
+<td>5</td>
+<td>S5</td>
+<td><strong>Jointures</strong> (séquence détaillée ci-après)</td>
+<td>2 h</td>
+</tr>
+<tr>
+<td>6</td>
+<td>S6</td>
+<td>Modification des tables (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>), contraintes d’intégrité</td>
+<td>2 h</td>
+</tr>
+<tr>
+<td>7</td>
+<td>S7</td>
+<td>Projet : modéliser et interroger une base « lycée » (clubs, élèves, activités)</td>
+<td>2 h</td>
+</tr>
+<tr>
+<td>8</td>
+<td>S8</td>
+<td>Évaluation formative + bilan culturel (RGPD, injections SQL) et devoir surveillé</td>
+<td>1 h + 1 h DS</td>
+</tr>
+</tbody>
+</table><p>Démarche générale : on part d’un <strong>problème de gestion concret</strong> (la médiathèque du lycée), on fait construire le modèle par les élèves, puis on traduit progressivement les besoins en requêtes. L’usage de SQLite (via DB Browser ou un notebook) est privilégié pour sa simplicité de déploiement.</p>
+<h3 id="nombre-dheures-envisagées">1.4 Nombre d’heures envisagées</h3>
+<p>Volume horaire total : <strong>12 heures</strong> en classe entière, dont :</p>
+<ul>
+<li>3 h de cours / activités débranchées et de modélisation ;</li>
+<li>6 h de travaux pratiques sur machine (SQL) ;</li>
+<li>2 h de mini-projet ;</li>
+<li>1 h d’évaluation sommative (devoir surveillé).</li>
+</ul>
+<p>Ce volume correspond à la dotation usuelle du thème dans les progressions de terminale NSI (environ 2 semaines à raison de 6 h hebdomadaires, en intégrant les évaluations).</p>
+<h3 id="éléments-dévaluation">1.5 Éléments d’évaluation</h3>
+<p><strong>Évaluation formative</strong> (continue) :</p>
+<ul>
+<li>
+<p>QCM en début de séance (interrogation de 10 minutes) sur le vocabulaire du modèle relationnel ;</p>
+</li>
+<li>
+<p>TP sur machine avec auto-évaluation : requêtes à écrire dont le résultat attendu est affiché ;</p>
+</li>
+<li>
+<p>observation des pratiques pendant les TP</p>
+</li>
+</ul>
+<p><strong>Évaluation sommative</strong> :</p>
+<ul>
+<li>un devoir surveillé d’une heure :requêtes SQL à écrire, requête à corriger, questions de compréhension ;</li>
+<li>le mini-projet S7 évalué par livrable (fichier <code>.sql</code> de création et d’interrogation de la base) et par une courte soutenance orale de 5 minutes (entraînement au grand oral).</li>
+</ul>
+<p><strong>Critères de réussite attendus en fin de chapitre</strong> :</p>
+<ul>
+<li>écrire une requête avec sélection, projection et tri ;</li>
+<li>écrire une jointure simple entre deux tables ;</li>
+<li>expliquer le rôle d’une clé primaire et d’une clé étrangère.</li>
+</ul>
+<hr>
+<h2 id="partie-2-—-détail-dune-séquence--les-jointures-sql-séance-5">Partie 2 — Détail d’une séquence : les jointures SQL (Séance 5)</h2>
+<h3 id="positionnement-de-la-séance">2.1 Positionnement de la séance</h3>
+<p>Cette séance de 2 heures intervient  après les séances consacrées au modèle relationnel , aux requêtes de sélection/projection  et aux agrégations . Les élèves savent déjà interroger une table unique ; ils ont été confrontés à la <strong>limite</strong> de cette approche : « comment afficher le titre d’un livre et le nom de son auteur alors que ces informations sont dans deux tables différentes ? » — question laissée en suspens volontairement à la fin de S4 (levier de motivation).</p>
+<p>Cette séance est une étape charnière : les jointures réinvestissent la notion de clé étrangère (S2) et sont directement nécessaires au mini-projet (S7) et à l’évaluation sommative (S8).</p>
+<p><strong>Objectifs de la séance</strong> — à l’issue de la séance, l’élève sera capable de :</p>
+<ul>
+<li>
+<p><strong>L’interrogation des données :</strong> Savoir extraire, filtrer et trier des informations d’une ou plusieurs tables grâce aux clauses fondamentales (<code>SELECT</code>, <code>FROM</code>, <code>WHERE</code>, <code>ORDER BY</code>, <code>DISTINCT</code>) ainsi qu’aux fonctions d’agrégation (<code>COUNT</code>, <code>MIN</code>, <code>MAX</code>, etc.).</p>
+</li>
+<li>
+<p><strong>Le croisement des données (Jointures) :</strong> Comprendre comment lier des tables entre elles en utilisant des clés étrangères et la clause <code>JOIN</code> pour associer des informations complémentaires (par exemple, relier des emprunts à des clients et à des albums).</p>
+</li>
+<li>
+<p><strong>La mise à jour et la gestion des données :</strong> Apprendre à modifier, insérer ou supprimer des enregistrements (<code>INSERT INTO</code>, <code>UPDATE</code>, <code>DELETE</code>) tout en comprenant le rôle crucial d’un Système de Gestion de Bases de Données (SGBD) pour garantir le respect des <strong>contraintes d’intégrité</strong> et de référence.</p>
+</li>
+</ul>
+<h3 id="support-de-cours">2.2 Support de cours</h3>
+<ul>
+<li><strong>Base de données d’exemple</strong> : <code>disquaire.db</code></li>
+<li>On suppose dans la suite de ce chapitre que l’on travaille avec la base de données de notre disquaire (voir Chapitre 1). Le schéma de la base est le suivant :</li>
+</ul>
+<pre><code>Album(id_album INT, titre TEXT, annee INT, dispo BOOL)
+</code></pre>
+<p>Voici le diagramme représentant ce schéma :</p>
+<p><img src="https://info-mounier.fr/terminale_nsi/base_de_donnees/data/diagramme_bdd.png" alt="diagramme"></p>
+<ul>
+<li><strong>Fiche de cours</strong> : contient le cours et la base de donnée <code>disquaire.db</code></li>
+<li><strong>Notebook</strong> :avec des requêtes à compléter, de difficulté croissante.</li>
+<li><strong>Matériel</strong>: salle informatique, DB Browser for SQLite .</li>
+</ul>
+<h3 id="exercices-envisagés">2.3 Exercices envisagés</h3>
+<p><strong>Exercice 1 — # BDD du disquaire - Requêtes portant sur une table.</strong></p>
+<p>L’objectif de cet exercice est de passer en revue la plupart des requêtes SQL d’interrogation portant sur <em>une seule table</em>.</p>
+<p><strong>Exercice 2 — # BDD du disquaire - Requêtes croisées.</strong><br>
+On présente dans cette introdution la notion de <strong>jointure</strong> qui permet de croiser plusieurs tables. Prenez le temps de lire attentivement cette partie, de tester les requêtes proposées, de les modifier, etc. pour bien comprendre cette notion fondamentale des bases de données relationnelles.</p>
+<p><strong>Exercice 3 — # Modifier une table.</strong><br>
+La création d’une base de données n’est pas au programme de Terminale NSI. Néanmoins, connaître les requêtes permettant de créer une table permet de mieux appréhender les requêtes de mise à jour que l’on verra ensuite.</p>
+<p><strong>Exercice 4 — # Modification de la base du disquaire.</strong></p>
+<h3 id="mode-de-travail">2.4 Mode de travail</h3>
+<p>La séance combine <strong>classe inversée et pédagogie de découverte</strong> :</p>
+<ul>
+<li><strong>Début de séance</strong> : le problème « livre + auteur » posé à la fin de S4 est repris en classe entière (10 min de mise en commun) ; confrontation des hypothèses d’élèves.</li>
+<li><strong>Cœur de séance</strong> : travail en binômes sur machine sur les exercices 1 à 4 (60 min), en autonomie différenciée — l’exercice 4 est réservé aux binômes les plus avancés, les autres pouvant solliciter des indices.</li>
+<li><strong>Bilan (15 min)</strong> : un binôme présente sa requête de l’exercice 3 au vidéoprojecteur ; synthèse co-construite et distribution de la fiche de cours.</li>
+</ul>
+<p>Ce dispositif n’est pas un « mode projet » : la tâche est cadrée et de courte durée ; en revanche il prépare au mini-projet S7 où les élèves choisiront eux-mêmes leurs requêtes.</p>
+<h3 id="extraits-de-devoir-permettant-dévaluer-lassimilation-de-la-séance">2.5 Extraits de devoir permettant d’évaluer l’assimilation de la séance</h3>
+<p><strong>Extrait 1 — # BDD du disquaire - Requêtes portant sur une table.</strong></p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> titre<span class="token punctuation">,</span> pays <span class="token keyword">FROM</span> OEUVRES
+<span class="token keyword">JOIN</span> AUTEURS <span class="token keyword">ON</span> OEUVRES<span class="token punctuation">.</span>id_auteur <span class="token operator">=</span> AUTEURS<span class="token punctuation">.</span>id_auteur<span class="token punctuation">;</span>
+</code></pre>
+<p>b) Que se passerait-il si l’on écrivait la même requête <strong>sans</strong> la ligne <code>JOIN ... ON ...</code> ?</p>
+<p><strong>Extrait 2 — Écriture de requêtes (sur 6 points).</strong></p>
+<p><strong>Extrait 3 — Débogage (sur 3 points).</strong><br>
+Un élève a écrit :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> titre<span class="token punctuation">,</span> nom <span class="token keyword">FROM</span> OEUVRES
+<span class="token keyword">JOIN</span> AUTEURS <span class="token keyword">ON</span> OEUVRES<span class="token punctuation">.</span>id_oeuvre <span class="token operator">=</span> AUTEURS<span class="token punctuation">.</span>id_auteur<span class="token punctuation">;</span>
+</code></pre>
+<p>La requête s’exécute mais retourne un résultat aberrant (beaucoup moins de lignes que prévu). Identifier l’erreur, l’expliquer et corriger la requête.</p>
+<p><strong>Extrait 4 — Question de transfert, discrimination (sur 2 points).</strong></p>
+<p><strong>Grille de compétences évaluées</strong> :</p>
+
+<table>
+<thead>
+<tr>
+<th>Compétence</th>
+<th>Extrait</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modéliser / lire un schéma relationnel</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Écrire une requête avec jointure</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Évaluer / corriger un traitement</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Traduire un besoin en démarche</td>
+<td>4</td>
+</tr>
+</tbody>
+</table><hr>
+<p><em>Document établi dans le cadre du DIU EIL AEFE 2026  — spécialité Numérique et Sciences Informatiques, classe de terminale générale.</em></p>
+
+    </div>
+  </div>
+</body>
+
+</html>
