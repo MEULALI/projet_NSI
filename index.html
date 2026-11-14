@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prix Zoom Zoom 2 — Jeunesses Méditerranéennes</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --mer: #1b6ca8;
+    --mer-clair: #3aa5d8;
+    --sable: #f6efe4;
+    --soleil: #f2a541;
+    --terre: #c9523f;
+    --texte: #233447;
+    --blanc: #ffffff;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    color: var(--texte);
+    background: var(--sable);
+    line-height: 1.6;
+  }
+
+  /* ===== En-tête ===== */
+  header.hero {
+    background: linear-gradient(160deg, var(--mer) 0%, var(--mer-clair) 55%, var(--soleil) 130%);
+    color: var(--blanc);
+    text-align: center;
+    padding: 60px 20px 40px;
+  }
+
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 44px);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .hero .sous-titre {
+    font-size: 18px;
+    opacity: 0.95;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .hero .vague {
+    display: block;
+    width: 100%;
+    margin-top: -1px;
+  }
+
+  /* ===== Logos des établissements ===== */
+  .logos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    background: var(--blanc);
+    padding: 25px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+
+  .logo-etab {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-etab svg { width: 55px; height: 55px; flex-shrink: 0; }
+
+  .logo-etab .nom {
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .logo-etab .nom small {
+    display: block;
+    font-weight: 400;
+    color: #667;
+  }
+
+  /* ===== Navigation ===== */
+  nav {
+    position: sticky;
+    top: 0;
+    background: var(--blanc);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--texte);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 15px;
+    transition: all 0.3s;
+  }
+
+  nav a:hover, nav a.actif {
+    background: var(--mer);
+    color: var(--blanc);
+  }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+
+  section { margin-bottom: 50px; scroll-margin-top: 80px; }
+
+  h2 {
+    color: var(--mer);
+    font-size: 26px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, var(--soleil), transparent);
+  }
+
+  .intro { font-size: 17px; }
+
+  /* ===== Galerie photos ===== */
+  .cartes-photographes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 22px;
+    margin-top: 20px;
+  }
+
+  .carte-photo {
+    background: var(--blanc);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    transition: transform 0.3s;
+  }
+
+  .carte-photo:hover { transform: translateY(-5px); }
+
+  .carte-photo .image {
+    height: 190px;
+    overflow: hidden;
+  }
+
+  .carte-photo .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .carte-photo .info { padding: 15px; }
+  .carte-photo h3 { font-size: 18px; color: var(--mer); margin-bottom: 5px; }
+  .carte-photo p { font-size: 14px; }
+
+  /* ===== Vote ===== */
+  .zone-vote {
+    background: var(--blanc);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .bouton-vote {
+    display: inline-block;
+    background: var(--terre);
+    color: var(--blanc);
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(201, 82, 63, 0.4);
+  }
+
+  .bouton-vote:hover {
+    background: var(--mer);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(27, 108, 168, 0.4);
+  }
+
+  .consigne-vote { font-size: 17px; margin-bottom: 18px; }
+  .note-vote { font-size: 13px; color: #889; margin-top: 14px; }
+
+  /* ===== Pied de page ===== */
+  footer {
+    background: var(--texte);
+    color: #fff;
+    text-align: center;
+    padding: 25px 20px;
+    font-size: 14px;
+  }
+
+  footer .vague-bas { margin-bottom: 15px; display: block; width: 100%; }
+
+  /* ===== Lightbox : photo en grand par-dessus la page ===== */
+  .lightbox-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    cursor: zoom-out;
+  }
+
+  .lightbox-modal.ouverte {
+    display: flex;
+  }
+
+  .lightbox-modal img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 6px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+  }
+
+  .lightbox-modal .fermer-info {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 600px) {
+    .logos { gap: 20px; }
+    .logo-etab svg { width: 40px; height: 40px; }
+    .carte-photo .image { height: 160px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= EN-TÊTE ================= -->
+<header class="hero">
+  <h1> Jeunesses Méditerranéennes</h1>
+  <p class="sous-titre">Prix Zoom Zoom 2e édition — Regards d'artistes photographes tunisiens </p>
+</header>
+
+<!-- Vague décorative -->
+<svg class="vague" viewBox="0 0 1440 70" preserveAspectRatio="none">
+  <path d="M0,40 C240,80 480,0 720,30 C960,60 1200,20 1440,50 L1440,70 L0,70 Z" fill="#ffffff"></path>
+</svg>
+
+<!-- ================= LOGOS DES 3 ÉTABLISSEMENTS ================= -->
+<div class="logos">
+  <div class="logo-etab">
+    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#1b6ca8"/><path d="M18 32l8 8 16-18" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/></svg>
+    <div class="nom"><small>ISC</small></div>
+  </div>
+  <div class="logo-etab">
+    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#f2a541"/><path d="M30 14v32M14 30h32" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>
+    <div class="nom"><small>LGF</small></div>
+  </div>
+  <div class="logo-etab">
+    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#c9523f"/><path d="M18 42l8-10 5 5 9-14" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+    <div class="nom"><small>RGSD</small></div>
+  </div>
+</div>
+
+<!-- ================= NAVIGATION ================= -->
+<nav>
+  <a href="#projet" class="actif">Le prix</a>
+  
+</nav>
+
+<main>
+
+  <!-- ================= LE PROJET ================= -->
+  <section id="projet">
+    <h2>Prix Zoom Zoom 2e édition !</h2>
+    <p class="intro zone-vote">
+      Nous voilà réunis à nouveau autour de ces 8 photos. Cette fois-ci, c'est pour voter.<br><br>
+      Regarde-les attentivement… Tu as eu l'occasion de les examiner en classe : la composition, les jeux de lumière, le message n'ont plus de secret pour toi… Tu as rencontré les photographes, tu as appris beaucoup de choses sur la photo…<br><br>
+      <strong>Laquelle d'entre elles te semble le mieux illustrer le thème « Jeunesses Méditerranéennes » ?</strong><br><br>
+      Au moment de voter pour le cliché qui, selon toi, recevra le prix ZOOM ZOOM 2 des lycéens 2027, fais confiance à ton ressenti. Choisis celle que tu préfères, celle qui te touche le plus, t'émeut, te fait vibrer, t'étonne, te bouleverse, t'interpelle, te dérange…<br><br>
+      <strong>Chaque vote compte !</strong><br>
+      Tu ne pourras bien sûr voter qu'une seule fois alors… fais le bon choix ! Tu as jusqu'au 15 mars.<br><br>
+      Merci pour ta participation.
+    </p>
+  </section>
+
+  <!-- ================= LES PHOTOS ================= -->
+  <section id="photos">
+    <h2>Les photos</h2>
+    <p>Clique sur une photo pour la voir en grand.</p>
+
+    <div class="cartes-photographes">
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img1.jpg" class="lightbox" target="_blank">
+            <img src="img1.jpg" alt="Photo 1">
+          </a>
+        </div>
+        <div class="info">
+          <h3>JELEL BESSAAD</h3>
+          <p>Lâcher prise.Plage Rimmel. Août 2019.</p>
+        </div>
+      </div>
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img2.jpg" class="lightbox" target="_blank">
+            <img src="img2.jpg" alt="Photo 2">
+          </a>
+        </div>
+        <div class="info">
+          <h3>MONA FKIH KHOUAJA</h3>
+          <p>L'éternelle liberté. Ports puniques de Mahdia. Août 2026.</p>
+        </div>
+      </div>
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img3.jpg" class="lightbox" target="_blank">
+            <img src="img3.jpg" alt="Photo 3">
+          </a>
+        </div>
+        <div class="info">
+          <h3>SKANDER ZARRAD</h3>
+          <p>K.O. Championnat K1 . Gammarth. Juin 2018. </p>
+        </div>
+      </div>
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img4.jpg" class="lightbox" target="_blank">
+            <img src="img4.jpg" alt="Photo 4">
+          </a>
+        </div>
+        <div class="info">
+          <h3>CHEHINE DHAHAK</h3>
+          <p>Duel au soleil Année : 2025 Lieu : La Goulette, Tunisie</p>
+        </div>
+      </div>
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img5.jpg" class="lightbox" target="_blank">
+            <img src="img5.jpg" alt="Photo 5">
+          </a>
+        </div>
+        <div class="info">
+          <h3>EMIN BOUSSOFFARA</h3>
+          <p>Vendeur de legmi au souk - Mahdia Tunisie  </p>
+        </div>
+      </div>
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img6.jpg" class="lightbox" target="_blank">
+            <img src="img6.jpg" alt="Photo 6">
+          </a>
+        </div>
+        <div class="info">
+          <h3>ANIS BEN BRAHIM</h3>
+          <p>Temps suspendu.Bab Bhar.Tunis.</p>
+        </div>
+      </div>
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img7.jpg" class="lightbox" target="_blank">
+            <img src="img7.jpg" alt="Photo 7">
+          </a>
+        </div>
+        <div class="info">
+          <h3>KHADIJA KAOUTHER KHOUINI</h3>
+          <p></p>
+        </div>
+      </div>
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img8.jpg" class="lightbox" target="_blank">
+            <img src="img8.jpg" alt="Photo 8">
+          </a>
+        </div>
+        <div class="info">
+          <h3>SONDES HARIZI</h3>
+          <p>Portrait d’un quotidien à Istanbul.2026. </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= VOTE ================= -->
+  <section id="vote">
+    <h2>Vote pour ta photo préférée</h2>
+    <div class="zone-vote">
+      <p class="consigne-vote"> Regarde les photos ci-dessus, puis clique sur le bouton pour aller voter. Un seul vote par élève, jusqu'au 15 mars.</p>
+      <a class="bouton-vote"
+        href="https://forms.cloud.microsoft/r/2jBDJK96gt"
+         target="_blank">
+        Voter maintenant
+      </a>
+      <p class="note-vote"><em>Une seule réponse par élève sera acceptée.</em></p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= PIED DE PAGE ================= -->
+<svg class="vague-bas" viewBox="0 0 1440 60" preserveAspectRatio="none">
+  <path d="M0,30 C240,-10 480,50 720,25 C960,0 1200,45 1440,20 L1440,60 L0,60 Z" fill="#233447"></path>
+</svg>
+<footer>
+  <p>Projet photo « Jeunesses Méditerranéennes » </p>
+  <p>Année scolaire 2026–2027</p>
+</footer>
+
+<script>
+  // Créer la fenêtre modale (une seule pour toute la page)
+  const modal = document.createElement("div");
+  modal.className = "lightbox-modal";
+  modal.innerHTML = "<img src='' alt='Photo en grand'><p class='fermer-info'>Cliquez n'importe où pour fermer</p>";
+  document.body.appendChild(modal);
+
+  const imgModal = modal.querySelector("img");
+
+  // Ouvrir la modale quand on clique sur une photo
+  document.querySelectorAll("a.lightbox").forEach(function (lien) {
+    lien.addEventListener("click", function (e) {
+      e.preventDefault();
+      imgModal.src = lien.getAttribute("href");
+      modal.classList.add("ouverte");
+    });
+  });
+
+  // Fermer en cliquant n'importe où sur la fenêtre
+  modal.addEventListener("click", function () {
+    modal.classList.remove("ouverte");
+  });
+
+  // Fermer avec la touche Échap
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") modal.classList.remove("ouverte");
+  });
+</script>
+
+</body>
+</html>
