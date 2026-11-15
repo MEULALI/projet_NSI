@@ -195,3 +195,144 @@ ul, ol {
   }
 
   footer .vague-bas { margin-bottom: 15px; display: block; width: 100%; }
+/* ===== Mise en forme du contenu du cours ===== */
+.zone-vote {
+  text-align: left;
+  text-justify: auto;
+  padding: clamp(20px, 4vw, 40px);
+}
+
+.stackedit__html {
+  max-width: 850px;
+  margin: 0 auto;
+  overflow-wrap: anywhere;
+}
+
+.stackedit__html h1 {
+  color: var(--mer);
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.stackedit__html h2 {
+  margin-top: 38px;
+  margin-bottom: 18px;
+  font-size: clamp(22px, 3vw, 28px);
+}
+
+/* Supprime la ligne décorative des h2 dans le contenu */
+.stackedit__html h2::after {
+  display: none;
+}
+
+.stackedit__html h3 {
+  color: var(--terre);
+  font-size: 20px;
+  margin: 28px 0 12px;
+}
+
+.stackedit__html p,
+.stackedit__html li {
+  line-height: 1.75;
+}
+
+.stackedit__html p {
+  margin: 12px 0;
+}
+
+.stackedit__html ul,
+.stackedit__html ol {
+  padding-left: 28px;
+  margin: 12px 0 20px;
+}
+
+.stackedit__html li {
+  margin: 7px 0;
+}
+
+.stackedit__html hr {
+  border: 0;
+  border-top: 1px solid #d9e1e8;
+  margin: 32px 0;
+}
+
+/* Tableaux lisibles, avec défilement horizontal si nécessaire */
+.stackedit__html table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 22px 0;
+  font-size: 15px;
+}
+
+.stackedit__html th,
+.stackedit__html td {
+  border: 1px solid #d9e1e8;
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.stackedit__html th {
+  background: var(--mer);
+  color: var(--blanc);
+}
+
+.stackedit__html tr:nth-child(even) td {
+  background: #f3f7fa;
+}
+
+/* Code SQL */
+.stackedit__html pre {
+  overflow-x: auto;
+  padding: 18px;
+  margin: 18px 0;
+  border-radius: 8px;
+  background: #233447;
+  color: #f6efe4;
+  line-height: 1.6;
+}
+
+.stackedit__html code {
+  font-family: Consolas, Monaco, monospace;
+}
+
+.stackedit__html p code,
+.stackedit__html li code {
+  background: #edf2f6;
+  color: #a33f31;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+/* Citations et images */
+.stackedit__html blockquote {
+  border-left: 4px solid var(--soleil);
+  margin: 20px 0;
+  padding: 12px 18px;
+  background: #fff8ed;
+}
+
+.stackedit__html img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 20px auto;
+  border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+  .zone-vote {
+    padding: 18px;
+  }
+
+  .stackedit__html table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .stackedit__html th,
+  .stackedit__html td {
+    min-width: 120px;
+  }
+}
