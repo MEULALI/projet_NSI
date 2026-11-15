@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIU EIL AEFE 2026 - Évaluations :Le langage SQL</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --mer: #1b6ca8;
+    --mer-clair: #3aa5d8;
+    --sable: #f6efe4;
+    --soleil: #f2a541;
+    --terre: #c9523f;
+    --texte: #233447;
+    --blanc: #ffffff;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    color: var(--texte);
+    background: var(--sable);
+    line-height: 1.6;
+  }
+
+  /* ===== En-tête ===== */
+  header.hero {
+    background: linear-gradient(160deg, var(--mer) 0%, var(--mer-clair) 55%, var(--soleil) 130%);
+    color: var(--blanc);
+    text-align: center;
+    padding: 60px 20px 40px;
+  }
+
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 44px);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .hero .sous-titre {
+    font-size: 18px;
+    opacity: 0.95;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .hero .vague {
+    display: block;
+    width: 100%;
+    margin-top: -1px;
+  }
+
+  /* ===== Logos des établissements ===== */
+  .logos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    background: var(--blanc);
+    padding: 25px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+
+  .logo-etab {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-etab svg { width: 55px; height: 55px; flex-shrink: 0; }
+
+  .logo-etab .nom {
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .logo-etab .nom small {
+    display: block;
+    font-weight: 400;
+    color: #667;
+  }
+
+  /* ===== Navigation ===== */
+  nav {
+    position: sticky;
+    top: 0;
+    background: var(--blanc);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--texte);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 15px;
+    transition: all 0.3s;
+  }
+
+  nav a:hover, nav a.actif {
+    background: var(--mer);
+    color: var(--blanc);
+  }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+
+  section { margin-bottom: 50px; scroll-margin-top: 80px; }
+
+  h2 {
+    color: var(--mer);
+    font-size: 26px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, var(--soleil), transparent);
+  }
+
+  .intro { font-size: 17px; }
+
+  /* ===== Galerie photos ===== */
+  .cartes-photographes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 22px;
+    margin-top: 20px;
+  }
+
+  .carte-photo {
+    background: var(--blanc);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    transition: transform 0.3s;
+  }
+
+  .carte-photo:hover { transform: translateY(-5px); }
+
+  .carte-photo .image {
+    height: 190px;
+    overflow: hidden;
+  }
+
+  .carte-photo .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .carte-photo .info { padding: 15px; }
+  .carte-photo h3 { font-size: 18px; color: var(--mer); margin-bottom: 5px; }
+  .carte-photo p { font-size: 14px; }
+
+  /* ===== Vote ===== */
+  .zone-vote {
+    background: var(--blanc);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    margin-top: 20px;
+    text-align: justify;
+    text-justify: inter-word;;
+  }
+
+  .bouton-vote {
+    display: inline-block;
+    background: var(--terre);
+    color: var(--blanc);
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(201, 82, 63, 0.4);
+  }
+
+  .bouton-vote:hover {
+    background: var(--mer);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(27, 108, 168, 0.4);
+  }
+
+  .consigne-vote { font-size: 17px; margin-bottom: 18px; }
+  .note-vote { font-size: 13px; color: #889; margin-top: 14px; }
+
+  /* ===== Pied de page ===== */
+  footer {
+    background: var(--texte);
+    color: #fff;
+    text-align: center;
+    padding: 25px 20px;
+    font-size: 14px;
+  }
+
+  footer .vague-bas { margin-bottom: 15px; display: block; width: 100%; }
+
+  /* ===== Lightbox : photo en grand par-dessus la page ===== */
+  .lightbox-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    cursor: zoom-out;
+  }
+
+  .lightbox-modal.ouverte {
+    display: flex;
+  }
+
+  .lightbox-modal img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 6px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+  }
+
+  .lightbox-modal .fermer-info {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 600px) {
+    .logos { gap: 20px; }
+    .logo-etab svg { width: 40px; height: 40px; }
+    .carte-photo .image { height: 160px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= EN-TÊTE ================= -->
+<header class="hero">
+  <h1> DIU EIL AEFE 2026 </h1>
+  <p class="sous-titre">Bases de données </p>
+</header>
+
+<!-- Vague décorative -->
+<svg class="vague" viewBox="0 0 1440 70" preserveAspectRatio="none">
+  <path d="M0,40 C240,80 480,0 720,30 C960,60 1200,20 1440,50 L1440,70 L0,70 Z" fill="#ffffff"></path>
+</svg>
+
+
+
+<!-- ================= NAVIGATION ================= -->
+<nav>
+  <a href="pres.html" >Présentation</a>
+ <a href="sql.html" class="actif">Cours</a>
+ <a href="#projet" >Exercices</a>
+  
+</nav>
+
+<main>
+
+  <!-- ================= LE PROJET ================= -->
+  <section id="projet">
+    <h2>Le Langage SQL!</h2>
+    <div class="intro zone-vote">
+     <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="le-langage-sql">Le langage SQL</h1>
+<hr>
+<h2 id="introduction">Introduction</h2>
+<p>On a vu que le modèle relationnel permettait de représenter la structure des données d’une base de données, mais aucune considération informatique n’entrait en jeu (c’était plutôt une vision mathématique de la base de données).</p>
+<p>Le modèle relationnel est réalisé par des logiciels appelés <strong>systèmes de gestion de bases de données</strong>, abrégé <strong>SGBD</strong>. Les SGBD relationnels sont les SGBD qui utilisent le modèle relationnel pour la représentation des données (on avait dit qu’il y en avait d’autres).</p>
+<p>La grande majorité des SGBD relationnels utilisent le langage <strong>SQL</strong> (<em>Structured Query Language</em>) qui permet d’envoyer des ordres, appelés <strong>requêtes</strong>, au SGBD. Ces ordres sont de deux types :</p>
+<ul>
+<li><strong>les requêtes d’interrogation</strong> permettent de récupérer des données vérifiant certains critères ;</li>
+<li><strong>les requêtes de mise à jour</strong> permettent de modifier la base de données.</li>
+</ul>
+<p><em>(Source : Cours “Implémentez vos bdd relationnelles avec SQL” de Quentin Durantay sur OpenClassrooms)</em></p>
+<p>On a vu que le modèle relationnel définissait différentes contraintes d’intégrité, et le SGBD est garant du respect de ces contraintes. Concrètement, c’est lui qui empêchera d’effectuer des modifications ne respectant pas les contraintes.</p>
+<p>Les SGBD relationnels les plus utilisés sont Oracle, MySQL, Microsoft SQL Server, PostgreSQL, Microsoft Access, SQLite, MariaDB.</p>
+<blockquote>
+<p><strong>Information</strong><br>
+Il existe de plus en plus de SGBD non relationnels, spécialement adaptés à des données plus diverses et moins structurées. On les appelle souvent des SGBD <strong>NoSQL</strong> (pour <em>Not only SQL</em>) : citons par exemple MongoDB, Cassandra (Facebook), BigTable (Google), …</p>
+</blockquote>
+<h3 id="sqlite">SQLite</h3>
+<p>La très grande majorité des SGBD sont basés sur un modèle client-serveur, nécessitant le démarrage d’un serveur pour effectuer les requêtes. Ce n’est pas le cas du SGBD SQLite car la base de données peut être représentée dans un fichier indépendant de la plateforme. Cette particularité rendant les choses plus simples fera que nous utiliserons le SGBD SQLite dans ce chapitre.</p>
+<hr>
+<h2 id="le-retour-du-disquaire">Le retour du disquaire</h2>
+<p>On suppose dans la suite de ce chapitre que l’on travaille avec la base de données de notre disquaire (voir Chapitre 1). Le schéma de la base est le suivant :</p>
+<ul>
+<li><strong>Album</strong>(<code>id_album</code> INT, <code>titre</code> TEXT, <code>annee</code> INT, <code>dispo</code> BOOL)</li>
+<li><strong>Artiste</strong>(<code>id_artiste</code> INT, <code>nom</code> TEXT, <code>prenom</code> TEXT)</li>
+<li><strong>Artiste_de</strong>(#<code>id_artiste</code> INT, #<code>id_album</code> INT)</li>
+<li><strong>Client</strong>(<code>id_client</code> INT, <code>nom</code> TEXT, <code>prenom</code> TEXT, <code>email</code> TEXT)</li>
+<li><strong>Emprunt</strong>(#<code>id_client</code> INT, #<code>id_album</code> INT, <code>jour</code> DATE)</li>
+</ul>
+<p>Voici le diagramme représentant ce schéma :</p>
+<pre><code>+------------------+         +------------------+         +------------------+
+|      Client      |         |     Emprunt      |         |      Album       |
++------------------+         +------------------+         +------------------+
+| PK id_client INT |--------&lt;| FK id_album INT  |--------&lt;| PK id_album INT  |
+|    nom       TEXT|         | FK id_client INT |         |    titre    TEXT |
+|    prenom    TEXT|         |    jour     DATE |         |    annee    INT  |
+|    email     TEXT|         +------------------+         |    dispo    BOOL |
++------------------+                                      +--------+---------+
+                                                                   |
+                                                          +--------+---------+         +-------------------+
+                                                          |    Artiste_de    |         |      Artiste      |
+                                                          +------------------+         +-------------------+
+                                                          | FK id_artiste INT|&gt;------- | PK id_artiste INT |
+                                                          | FK id_album   INT|         |    nom       TEXT |
+                                                          +------------------+         |    prenom    TEXT |
+                                                                                       +-------------------+
+</code></pre>
+<h2 id="sélectionner-des-données">Sélectionner des données</h2>
+<p>On commence par voir les requêtes SQL permettant de récupérer des données selon certains critères, on appelle cela les <strong>requêtes d’interrogation</strong>.</p>
+<h3 id="sélectionner-des-colonnes-avec-select">Sélectionner des colonnes avec <code>SELECT</code></h3>
+<h4 id="première-requête-sql">Première requête SQL</h4>
+<p>La requête suivante permet d’afficher tout le contenu de la table <code>Album</code>.</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> Album<span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Analyse :</strong></p>
+<ul>
+<li>En SQL, chaque requête contient au moins les clauses <code>SELECT</code> et <code>FROM</code> et se termine par un point-virgule.</li>
+<li>Le mot-clé <code>SELECT</code> demande au SGBD d’afficher ce que contient une table.</li>
+<li>Après <code>SELECT</code>, il faut indiquer quels champs (ou attributs) de la table le SGBD doit récupérer. Ici le caractère <code>*</code> indique qu’il faut récupérer tous les champs de la table.</li>
+<li>Après le mot-clé <code>FROM</code> (de l’anglais “de”), on indique la table dans laquelle on veut récupérer des informations (ici <code>Album</code>).</li>
+</ul>
+<p><strong>Bilan :</strong> cette requête se traduit par <em>“prends tout ce qu’il y a dans la table Album”</em>, sous-entendu prends tous les champs de cette table. Elle produit le résultat suivant :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">id_album</th>
+<th align="left">titre</th>
+<th align="left">annee</th>
+<th align="left">dispo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="left">Blues Breakers</td>
+<td align="left">1966</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">I Still Do</td>
+<td align="left">2016</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">Aftermath</td>
+<td align="left">1966</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">Off the Wall</td>
+<td align="left">1979</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">Axis: Bold As Love</td>
+<td align="left">1967</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">6</td>
+<td align="left">Thriller</td>
+<td align="left">1982</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">Black and Blue</td>
+<td align="left">1976</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">8</td>
+<td align="left">Riding With The King</td>
+<td align="left">2000</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">9</td>
+<td align="left">Bad</td>
+<td align="left">1987</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">10</td>
+<td align="left">It’s Only Rock’n Roll</td>
+<td align="left">1974</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">11</td>
+<td align="left">Don’t Explain</td>
+<td align="left">2011</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">12</td>
+<td align="left">Aretha</td>
+<td align="left">1980</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">13</td>
+<td align="left">Abbey Road</td>
+<td align="left">1969</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">14</td>
+<td align="left">Let It Be</td>
+<td align="left">1970</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">15</td>
+<td align="left">44/876</td>
+<td align="left">2018</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">16</td>
+<td align="left">Lady Soul</td>
+<td align="left">1968</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">17</td>
+<td align="left">Back in Black</td>
+<td align="left">1980</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">18</td>
+<td align="left">Sacred Love</td>
+<td align="left">2003</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">19</td>
+<td align="left">Songs in the Key of Life</td>
+<td align="left">1976</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">20</td>
+<td align="left">Power Up</td>
+<td align="left">2020</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">21</td>
+<td align="left">The Last Ship</td>
+<td align="left">2013</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">22</td>
+<td align="left">Signed, Sealed &amp; Delivered</td>
+<td align="left">1970</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">23</td>
+<td align="left">Fire on the Floor</td>
+<td align="left">2016</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">24</td>
+<td align="left">Continuum</td>
+<td align="left">2006</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">25</td>
+<td align="left">Continuum</td>
+<td align="left">2006</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">26</td>
+<td align="left">Exodus</td>
+<td align="left">1977</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">27</td>
+<td align="left">Sex Machine</td>
+<td align="left">1970</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">28</td>
+<td align="left">T.N.T.</td>
+<td align="left">1975</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">29</td>
+<td align="left">Leave the Light On</td>
+<td align="left">2003</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">30</td>
+<td align="left">Blues Deluxe</td>
+<td align="left">2003</td>
+<td align="left">1</td>
+</tr>
+</tbody>
+</table><h4 id="et-si-on-ne-veut-pas-toutes-les-colonnes-">Et si on ne veut pas toutes les colonnes ?</h4>
+<p>En SQL, il est possible de sélectionner certaines colonnes de la table (et pas toutes) simplement en indiquant après le <code>SELECT</code> les noms des attributs à conserver.</p>
+<p>Par exemple, la requête :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> titre<span class="token punctuation">,</span> annee <span class="token keyword">FROM</span> Album<span class="token punctuation">;</span>
+</code></pre>
+<p>permet de ne sélectionner que les attributs <code>titre</code> et <code>annee</code> de la table <code>Album</code> (on dit que l’on fait une <strong>projection</strong> sur ces deux attributs) :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">titre</th>
+<th align="left">annee</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Blues Breakers</td>
+<td align="left">1966</td>
+</tr>
+<tr>
+<td align="left">I Still Do</td>
+<td align="left">2016</td>
+</tr>
+<tr>
+<td align="left">Aftermath</td>
+<td align="left">1966</td>
+</tr>
+<tr>
+<td align="left">Off the Wall</td>
+<td align="left">1979</td>
+</tr>
+<tr>
+<td align="left">Axis: Bold As Love</td>
+<td align="left">1967</td>
+</tr>
+<tr>
+<td align="left">Thriller</td>
+<td align="left">1982</td>
+</tr>
+<tr>
+<td align="left">Black and Blue</td>
+<td align="left">1976</td>
+</tr>
+<tr>
+<td align="left">Riding With The King</td>
+<td align="left">2000</td>
+</tr>
+<tr>
+<td align="left">Bad</td>
+<td align="left">1987</td>
+</tr>
+<tr>
+<td align="left">It’s Only Rock’n Roll</td>
+<td align="left">1974</td>
+</tr>
+<tr>
+<td align="left">Don’t Explain</td>
+<td align="left">2011</td>
+</tr>
+<tr>
+<td align="left">Aretha</td>
+<td align="left">1980</td>
+</tr>
+<tr>
+<td align="left">Abbey Road</td>
+<td align="left">1969</td>
+</tr>
+<tr>
+<td align="left">Let It Be</td>
+<td align="left">1970</td>
+</tr>
+<tr>
+<td align="left">44/876</td>
+<td align="left">2018</td>
+</tr>
+<tr>
+<td align="left">Lady Soul</td>
+<td align="left">1968</td>
+</tr>
+<tr>
+<td align="left">Back in Black</td>
+<td align="left">1980</td>
+</tr>
+<tr>
+<td align="left">Sacred Love</td>
+<td align="left">2003</td>
+</tr>
+<tr>
+<td align="left">Songs in the Key of Life</td>
+<td align="left">1976</td>
+</tr>
+<tr>
+<td align="left">Power Up</td>
+<td align="left">2020</td>
+</tr>
+<tr>
+<td align="left">The Last Ship</td>
+<td align="left">2013</td>
+</tr>
+<tr>
+<td align="left">Signed, Sealed &amp; Delivered</td>
+<td align="left">1970</td>
+</tr>
+<tr>
+<td align="left">Fire on the Floor</td>
+<td align="left">2016</td>
+</tr>
+<tr>
+<td align="left">Continuum</td>
+<td align="left">2006</td>
+</tr>
+<tr>
+<td align="left">Continuum</td>
+<td align="left">2006</td>
+</tr>
+<tr>
+<td align="left">Exodus</td>
+<td align="left">1977</td>
+</tr>
+<tr>
+<td align="left">Sex Machine</td>
+<td align="left">1970</td>
+</tr>
+<tr>
+<td align="left">T.N.T.</td>
+<td align="left">1975</td>
+</tr>
+<tr>
+<td align="left">Leave the Light On</td>
+<td align="left">2003</td>
+</tr>
+<tr>
+<td align="left">Blues Deluxe</td>
+<td align="left">2003</td>
+</tr>
+</tbody>
+</table><hr>
+<h3 id="sélectionner-des-lignes-avec-where">Sélectionner des lignes avec <code>WHERE</code></h3>
+<p>En plus de sélectionner des colonnes, on peut sélectionner certaines lignes en utilisant la clause <code>WHERE</code> suivie de la condition de sélection.</p>
+<p>Par exemple, la requête :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> titre<span class="token punctuation">,</span> annee <span class="token keyword">FROM</span> Album <span class="token keyword">WHERE</span> annee <span class="token operator">&gt;=</span> <span class="token number">2005</span><span class="token punctuation">;</span>
+</code></pre>
+<p>permet d’obtenir les titres et l’année de sortie des albums (de la table <code>Album</code>) qui sont sortis en 2005 ou après :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">titre</th>
+<th align="left">annee</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">I Still Do</td>
+<td align="left">2016</td>
+</tr>
+<tr>
+<td align="left">Don’t Explain</td>
+<td align="left">2011</td>
+</tr>
+<tr>
+<td align="left">44/876</td>
+<td align="left">2018</td>
+</tr>
+<tr>
+<td align="left">Power Up</td>
+<td align="left">2020</td>
+</tr>
+<tr>
+<td align="left">The Last Ship</td>
+<td align="left">2013</td>
+</tr>
+<tr>
+<td align="left">Fire on the Floor</td>
+<td align="left">2016</td>
+</tr>
+<tr>
+<td align="left">Continuum</td>
+<td align="left">2006</td>
+</tr>
+<tr>
+<td align="left">Continuum</td>
+<td align="left">2006</td>
+</tr>
+</tbody>
+</table><blockquote>
+<p><strong>Remarque :</strong> L’expression se trouvant après <code>WHERE</code> est une expression booléenne qui peut être construite à partir :</p>
+<ul>
+<li>des opérateurs de comparaison : <code>=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>, et <code>&lt;&gt;</code> (ou <code>!=</code> qui est généralement supporté par les SGBD) ;</li>
+<li>des opérateurs arithmétiques : <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code> ;</li>
+<li>de constantes et noms d’attributs ;</li>
+<li>d’opérateurs logiques : <code>AND</code>, <code>OR</code>, <code>NOT</code> ;</li>
+<li>et d’opérateurs spéciaux tels que l’opérateur de comparaison de texte <code>LIKE</code>.</li>
+</ul>
+</blockquote>
+<h4 id="combiner-les-conditions-avec-les-opérateurs-logiques">Combiner les conditions avec les opérateurs logiques</h4>
+<p>Par exemple, pour obtenir les titres et années des albums sortis entre 2005 et 2015, on peut écrire la requête :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> titre<span class="token punctuation">,</span> annee <span class="token keyword">FROM</span> Album <span class="token keyword">WHERE</span> annee <span class="token operator">&gt;=</span> <span class="token number">2005</span> <span class="token operator">AND</span> annee <span class="token operator">&lt;=</span> <span class="token number">2015</span><span class="token punctuation">;</span>
+</code></pre>
+<p>qui produit le résultat suivant :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">titre</th>
+<th align="left">annee</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Don’t Explain</td>
+<td align="left">2011</td>
+</tr>
+<tr>
+<td align="left">The Last Ship</td>
+<td align="left">2013</td>
+</tr>
+<tr>
+<td align="left">Continuum</td>
+<td align="left">2006</td>
+</tr>
+<tr>
+<td align="left">Continuum</td>
+<td align="left">2006</td>
+</tr>
+</tbody>
+</table><blockquote>
+<p><strong>Remarque :</strong> Le langage SQL n’est pas sensible aux blancs et aux indentations (ni à la casse), ce qui fait que lorsque les requêtes commencent à être un peu longues, on peut améliorer leur lisibilité en jouant sur les retours à la ligne et les indentations. Ainsi, la requête qui suit est équivalente à la précédente :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> titre<span class="token punctuation">,</span> annee
+<span class="token keyword">FROM</span> Album
+<span class="token keyword">WHERE</span> annee <span class="token operator">&gt;=</span> <span class="token number">2005</span> <span class="token operator">AND</span> annee <span class="token operator">&lt;=</span> <span class="token number">2015</span><span class="token punctuation">;</span>
+</code></pre>
+</blockquote>
+<hr>
+<h3 id="rechercher-par-motif-avec-like">Rechercher par motif avec <code>LIKE</code></h3>
+<p>On peut effectuer des requêtes effectuant des recherches de certains motifs en utilisant <code>LIKE</code>.</p>
+<p>Par exemple, on peut chercher les identifiants et les titres des albums dont le titre contient le mot “Love”. La requête s’écrirait :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> id_album<span class="token punctuation">,</span> titre <span class="token keyword">FROM</span> Album <span class="token keyword">WHERE</span> titre <span class="token operator">LIKE</span> <span class="token string">"%Love%"</span><span class="token punctuation">;</span>
+</code></pre>
+<p>et produit le résultat :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">id_album</th>
+<th align="left">titre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">5</td>
+<td align="left">Axis: Bold As Love</td>
+</tr>
+<tr>
+<td align="left">18</td>
+<td align="left">Sacred Love</td>
+</tr>
+</tbody>
+</table><p><strong>Analyse :</strong></p>
+<ul>
+<li>Contrairement à <code>=</code> qui fait une recherche exacte, l’opération <code>titre LIKE "%Love%"</code> effectue une recherche approchée. Ainsi, <code>titre LIKE "%Love%"</code> est évaluée à vrai si et seulement si l’attribut <code>titre</code> correspond au motif <code>"%Love%"</code>.</li>
+<li>Dans un motif, le symbole <code>%</code> est un joker et peut être substitué par n’importe quelle chaîne de caractères.</li>
+</ul>
+<hr>
+<h3 id="trier-les-données-avec-order-by">Trier les données avec <code>ORDER BY</code></h3>
+<p>On peut trier des données en utilisant <code>ORDER BY</code> à la fin d’une requête, suivi de l’attribut à trier et de <code>ASC</code> (pour un tri croissant) ou <code>DESC</code> (pour un tri décroissant).</p>
+<p>Ainsi, la requête :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> titre<span class="token punctuation">,</span> annee
+<span class="token keyword">FROM</span> Album
+<span class="token keyword">WHERE</span> annee <span class="token operator">&gt;=</span> <span class="token number">2005</span> <span class="token operator">AND</span> annee <span class="token operator">&lt;=</span> <span class="token number">2015</span>
+<span class="token keyword">ORDER</span> <span class="token keyword">BY</span> annee <span class="token keyword">ASC</span><span class="token punctuation">;</span>
+</code></pre>
+<p>permet de trier les résultats d’une des requêtes précédentes par ordre chronologique d’année de sortie.</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">titre</th>
+<th align="left">annee</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Continuum</td>
+<td align="left">2006</td>
+</tr>
+<tr>
+<td align="left">Continuum</td>
+<td align="left">2006</td>
+</tr>
+<tr>
+<td align="left">Don’t Explain</td>
+<td align="left">2011</td>
+</tr>
+<tr>
+<td align="left">The Last Ship</td>
+<td align="left">2013</td>
+</tr>
+</tbody>
+</table><blockquote>
+<p><strong>Information :</strong> En remplaçant <code>ASC</code> par <code>DESC</code>, on aurait obtenu les mêmes résultats mais affichés dans l’ordre inverse, du plus récent au plus ancien.</p>
+</blockquote>
+<hr>
+<h3 id="supprimer-les-doublons-avec-distinct">Supprimer les doublons avec <code>DISTINCT</code></h3>
+<p>On voit que le résultat de la dernière requête contient 4 enregistrements, dont deux sont identiques (pour les deux attributs conservés !). On peut utiliser le mot-clé <code>DISTINCT</code> avec la clause <code>SELECT</code> pour retirer les doublons d’un résultat :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token keyword">DISTINCT</span> titre<span class="token punctuation">,</span> annee
+<span class="token keyword">FROM</span> Album
+<span class="token keyword">WHERE</span> annee <span class="token operator">&gt;=</span> <span class="token number">2005</span> <span class="token operator">AND</span> annee <span class="token operator">&lt;=</span> <span class="token number">2015</span>
+<span class="token keyword">ORDER</span> <span class="token keyword">BY</span> annee <span class="token keyword">ASC</span><span class="token punctuation">;</span>
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th align="left">titre</th>
+<th align="left">annee</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Continuum</td>
+<td align="left">2006</td>
+</tr>
+<tr>
+<td align="left">Don’t Explain</td>
+<td align="left">2011</td>
+</tr>
+<tr>
+<td align="left">The Last Ship</td>
+<td align="left">2013</td>
+</tr>
+</tbody>
+</table><hr>
+<h3 id="faire-des-calculs-grâce-aux-fonctions-dagrégation">Faire des calculs grâce aux fonctions d’agrégation</h3>
+<p>Les fonctions d’agrégation permettent d’appliquer une fonction à toutes les valeurs d’une colonne et renvoyer le résultat comme une table ayant une seule case (une ligne et une colonne). Voici quelques fonctions d’agrégation :</p>
+<ul>
+<li><code>COUNT()</code> : pour compter le nombre de résultats (le nombre de lignes)</li>
+<li><code>AVG()</code> : pour calculer la moyenne des valeurs d’une colonne</li>
+<li><code>SUM()</code> : pour calculer la somme des valeurs d’une colonne</li>
+<li><code>MIN()</code> et <code>MAX()</code> : pour calculer respectivement la valeur minimale et la valeur maximale d’une colonne</li>
+</ul>
+<h4 id="compter-avec-count">Compter avec <code>COUNT()</code></h4>
+<p>Par exemple, pour calculer le nombre d’albums sortis entre 2005 et 2015 (plutôt que de renvoyer ces albums en question), on écrira la requête :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">AS</span> total
+<span class="token keyword">FROM</span> Album
+<span class="token keyword">WHERE</span> annee <span class="token operator">&gt;=</span> <span class="token number">2005</span> <span class="token operator">AND</span> annee <span class="token operator">&lt;=</span> <span class="token number">2015</span><span class="token punctuation">;</span>
+</code></pre>
+<p>qui renvoie le résultat :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">4</td>
+</tr>
+</tbody>
+</table><blockquote>
+<p><strong>Remarque :</strong> On a choisi ici de renommer <code>total</code> la colonne donnant le résultat de la requête. En effet, sinon le SGBD choisit lui-même un nom, souvent peu parlant, puisque le résultat n’est pas une colonne d’une table existante.</p>
+</blockquote>
+<h4 id="trouver-le-minimum-et-le-maximum-avec-min-et-max">Trouver le minimum et le maximum avec <code>MIN()</code> et <code>MAX()</code></h4>
+<p>Si on souhaite connaître l’année de l’album le plus ancien du disquaire, il suffit de calculer la valeur minimale de l’attribut <code>annee</code> avec la requête :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token function">MIN</span><span class="token punctuation">(</span>annee<span class="token punctuation">)</span> <span class="token keyword">AS</span> annee_mini <span class="token keyword">FROM</span> Album<span class="token punctuation">;</span>
+</code></pre>
+<p>qui renvoie le résultat :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">annee_mini</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1966</td>
+</tr>
+</tbody>
+</table><p>Ces fonctions peuvent également comparer des chaînes de caractères. Ainsi, si on souhaite connaître le nom de l’artiste arrivant en dernier par ordre alphabétique, il suffit de “calculer” la valeur maximale de l’attribut <code>nom</code> (de la table <code>Artiste</code>) avec la requête :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token function">MAX</span><span class="token punctuation">(</span>nom<span class="token punctuation">)</span><span class="token punctuation">,</span> prenom <span class="token keyword">FROM</span> Artiste<span class="token punctuation">;</span>
+</code></pre>
+<p>qui renvoie le résultat :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">MAX(nom)</th>
+<th align="left">prenom</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Wonder</td>
+<td align="left">Stevie</td>
+</tr>
+</tbody>
+</table><blockquote>
+<p>Ici, on a utilisé la fonction <code>MAX()</code> (sur le nom) tout en sélectionnant l’attribut <code>prenom</code> pour récupérer également le prénom de l’artiste. Ce n’était pas obligatoire et on aurait pu écrire <code>SELECT MAX(nom) FROM Artiste;</code>.</p>
+</blockquote>
+<p>Les fonctions <code>AVG()</code> et <code>SUM()</code> s’utilisent de la même manière mais n’ont pas de sens avec les données présentes dans la base de données du disquaire, donc on n’en parle pas ici.</p>
+<hr>
+<h2 id="recherches-croisées--les-jointures-avec-join">Recherches croisées : les jointures avec <code>JOIN</code></h2>
+<p><em>Faites les exercices 2 et 3.</em></p>
+<p>Les requêtes abordées jusqu’à présent ne portaient à chaque fois que sur une seule table. C’est malheureusement insuffisant pour chercher certaines informations qui nécessitent de croiser (les informations de) plusieurs tables.</p>
+<p>Imaginons que l’on veuille connaître les clients ayant des emprunts en cours. Ces derniers sont ceux présents dans la table <code>Emprunt</code> et on peut les obtenir avec la requête :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> Emprunt<span class="token punctuation">;</span>
+</code></pre>
+<p>qui produit la réponse suivante :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">id_client</th>
+<th align="left">id_album</th>
+<th align="left">jour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="left">5</td>
+<td align="left">2021-09-10</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">8</td>
+<td align="left">2021-08-18</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">24</td>
+<td align="left">2021-08-18</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">25</td>
+<td align="left">2021-09-12</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">6</td>
+<td align="left">2021-10-10</td>
+</tr>
+<tr>
+<td align="left">9</td>
+<td align="left">20</td>
+<td align="left">2021-09-28</td>
+</tr>
+<tr>
+<td align="left">11</td>
+<td align="left">14</td>
+<td align="left">2021-10-08</td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">15</td>
+<td align="left">2021-10-08</td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">19</td>
+<td align="left">2021-10-08</td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">16</td>
+<td align="left">2021-10-15</td>
+</tr>
+<tr>
+<td align="left">16</td>
+<td align="left">29</td>
+<td align="left">2021-10-01</td>
+</tr>
+</tbody>
+</table><p>Mais ce n’est pas très satisfaisant car on aimerait plutôt afficher les noms, prénoms et adresse email de ces clients plutôt que <code>id_client</code>.</p>
+<p>Le problème est que les noms, prénoms, adresses email sont uniquement présents dans la table <code>Client</code>. Il est nécessaire de faire une <strong>jointure</strong> entre les deux tables <code>Emprunt</code> et <code>Client</code>.</p>
+<h3 id="première-jointure">Première jointure</h3>
+<p>Une jointure consiste à créer toutes les combinaisons de lignes des deux tables ayant un attribut de même valeur (l’attribut <code>id_client</code> dans notre exemple). Pour effectuer une jointure, on utilise la clause <code>JOIN</code>. L’attribut de même valeur est précisé après le mot-clé <code>ON</code>.</p>
+<p>Ainsi, dans le cas de notre exemple, on peut effectuer la jointure entre les tables <code>Emprunt</code> et <code>Client</code>, sur l’attribut <code>id_client</code> pour ne garder que les lignes concernant le même client.</p>
+<p>Cela s’écrit avec la requête suivante :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span>
+<span class="token keyword">FROM</span> Emprunt
+<span class="token keyword">JOIN</span> Client <span class="token keyword">ON</span> Emprunt<span class="token punctuation">.</span>id_client <span class="token operator">=</span> Client<span class="token punctuation">.</span>id_client<span class="token punctuation">;</span>
+</code></pre>
+<p>Le résultat de cette jointure est :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">id_client</th>
+<th align="left">id_album</th>
+<th align="left">jour</th>
+<th align="left">id_client_1</th>
+<th align="left">nom</th>
+<th align="left">prenom</th>
+<th align="left">email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="left">5</td>
+<td align="left">2021-09-10</td>
+<td align="left">1</td>
+<td align="left">Dupont</td>
+<td align="left">Florine</td>
+<td align="left"><a href="mailto:dupont.florine@domaine.net">dupont.florine@domaine.net</a></td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">8</td>
+<td align="left">2021-08-18</td>
+<td align="left">3</td>
+<td align="left">Marchand</td>
+<td align="left">Grégoire</td>
+<td align="left"><a href="mailto:greg.marchand49@music.com">greg.marchand49@music.com</a></td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">24</td>
+<td align="left">2021-08-18</td>
+<td align="left">3</td>
+<td align="left">Marchand</td>
+<td align="left">Grégoire</td>
+<td align="left"><a href="mailto:greg.marchand49@music.com">greg.marchand49@music.com</a></td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">25</td>
+<td align="left">2021-09-12</td>
+<td align="left">5</td>
+<td align="left">Pacot</td>
+<td align="left">Jean</td>
+<td align="left"><a href="mailto:jpacot@music.com">jpacot@music.com</a></td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">6</td>
+<td align="left">2021-10-10</td>
+<td align="left">5</td>
+<td align="left">Pacot</td>
+<td align="left">Jean</td>
+<td align="left"><a href="mailto:jpacot@music.com">jpacot@music.com</a></td>
+</tr>
+<tr>
+<td align="left">9</td>
+<td align="left">20</td>
+<td align="left">2021-09-28</td>
+<td align="left">9</td>
+<td align="left">Dubois</td>
+<td align="left">Philippe</td>
+<td align="left"><a href="mailto:pdubois5@chezmoi.net">pdubois5@chezmoi.net</a></td>
+</tr>
+<tr>
+<td align="left">11</td>
+<td align="left">14</td>
+<td align="left">2021-10-08</td>
+<td align="left">11</td>
+<td align="left">Fournier</td>
+<td align="left">Marie</td>
+<td align="left"><a href="mailto:mfournier@abc.de">mfournier@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">15</td>
+<td align="left">2021-10-08</td>
+<td align="left">7</td>
+<td align="left">Moreau</td>
+<td align="left">Alain</td>
+<td align="left"><a href="mailto:amoreaul@abc.de">amoreaul@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">19</td>
+<td align="left">2021-10-08</td>
+<td align="left">7</td>
+<td align="left">Moreau</td>
+<td align="left">Alain</td>
+<td align="left"><a href="mailto:amoreaul@abc.de">amoreaul@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">16</td>
+<td align="left">2021-10-15</td>
+<td align="left">7</td>
+<td align="left">Moreau</td>
+<td align="left">Alain</td>
+<td align="left"><a href="mailto:amoreaul@abc.de">amoreaul@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">16</td>
+<td align="left">29</td>
+<td align="left">2021-10-01</td>
+<td align="left">16</td>
+<td align="left">Bernardin</td>
+<td align="left">Stéphanie</td>
+<td align="left"><a href="mailto:sbernard1@chezmoi.net">sbernard1@chezmoi.net</a></td>
+</tr>
+</tbody>
+</table><p><strong>Analyse :</strong></p>
+<ul>
+<li>La jointure (<code>SELECT * FROM Emprunt JOIN Client</code>) a permis de recopier toutes les colonnes des deux tables.</li>
+<li>Le choix des lignes à conserver, appelée <strong>condition de jointure</strong>, suit le mot-clé <code>ON</code>. Cela permet de fusionner uniquement les lignes vérifiant la condition <code>Emprunt.id_client = Client.id_client</code>, autrement dit les lignes pour lesquelles l’attribut <code>id_client</code> est identique (donc celles concernant un même client).</li>
+<li><em>Essayez d’enlever le <code>ON ...</code>, vous constaterez que toutes les lignes sont fusionnées, ce qui est absurde car une même ligne peut alors correspondre à deux clients distincts.</em></li>
+<li>Vous avez constaté que l’on a préfixé chaque attribut par le nom de la table auquel il appartient. Cela permet de faire la différence entre deux attributs portant le même nom dans deux tables différentes, et c’est une bonne pratique de toujours le faire même lorsqu’il n’y a pas d’ambiguïté.</li>
+</ul>
+<blockquote>
+<p><strong>Information :</strong> Ce sont les clés étrangères qui permettent de faire le lien entre les tables, il est donc normal que la condition de jointure fasse intervenir <code>id_client</code> (puisque c’est une clé étrangère de la table <code>Emprunt</code> qui la lie à la table <code>Client</code>).</p>
+</blockquote>
+<p>On peut combiner une jointure avec la clause <code>SELECT</code> pour n’afficher que ce qui nous intéresse. Par exemple, si on ne veut que les noms, prénoms et adresses email des clients ayant des emprunts en cours ainsi que les albums empruntés et le jour d’emprunt, on peut faire la requête :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> Emprunt<span class="token punctuation">.</span>id_album<span class="token punctuation">,</span> Emprunt<span class="token punctuation">.</span>jour<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>nom<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>prenom<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>email
+<span class="token keyword">FROM</span> Emprunt
+<span class="token keyword">JOIN</span> Client <span class="token keyword">ON</span> Emprunt<span class="token punctuation">.</span>id_client <span class="token operator">=</span> Client<span class="token punctuation">.</span>id_client<span class="token punctuation">;</span>
+</code></pre>
+<p>qui produit le résultat :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">id_album</th>
+<th align="left">jour</th>
+<th align="left">nom</th>
+<th align="left">prenom</th>
+<th align="left">email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">5</td>
+<td align="left">2021-09-10</td>
+<td align="left">Dupont</td>
+<td align="left">Florine</td>
+<td align="left"><a href="mailto:dupont.florine@domaine.net">dupont.florine@domaine.net</a></td>
+</tr>
+<tr>
+<td align="left">8</td>
+<td align="left">2021-08-18</td>
+<td align="left">Marchand</td>
+<td align="left">Grégoire</td>
+<td align="left"><a href="mailto:greg.marchand49@music.com">greg.marchand49@music.com</a></td>
+</tr>
+<tr>
+<td align="left">24</td>
+<td align="left">2021-08-18</td>
+<td align="left">Marchand</td>
+<td align="left">Grégoire</td>
+<td align="left"><a href="mailto:greg.marchand49@music.com">greg.marchand49@music.com</a></td>
+</tr>
+<tr>
+<td align="left">25</td>
+<td align="left">2021-09-12</td>
+<td align="left">Pacot</td>
+<td align="left">Jean</td>
+<td align="left"><a href="mailto:jpacot@music.com">jpacot@music.com</a></td>
+</tr>
+<tr>
+<td align="left">6</td>
+<td align="left">2021-10-10</td>
+<td align="left">Pacot</td>
+<td align="left">Jean</td>
+<td align="left"><a href="mailto:jpacot@music.com">jpacot@music.com</a></td>
+</tr>
+<tr>
+<td align="left">20</td>
+<td align="left">2021-09-28</td>
+<td align="left">Dubois</td>
+<td align="left">Philippe</td>
+<td align="left"><a href="mailto:pdubois5@chezmoi.net">pdubois5@chezmoi.net</a></td>
+</tr>
+<tr>
+<td align="left">14</td>
+<td align="left">2021-10-08</td>
+<td align="left">Fournier</td>
+<td align="left">Marie</td>
+<td align="left"><a href="mailto:mfournier@abc.de">mfournier@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">15</td>
+<td align="left">2021-10-08</td>
+<td align="left">Moreau</td>
+<td align="left">Alain</td>
+<td align="left"><a href="mailto:amoreaul@abc.de">amoreaul@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">19</td>
+<td align="left">2021-10-08</td>
+<td align="left">Moreau</td>
+<td align="left">Alain</td>
+<td align="left"><a href="mailto:amoreaul@abc.de">amoreaul@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">16</td>
+<td align="left">2021-10-15</td>
+<td align="left">Moreau</td>
+<td align="left">Alain</td>
+<td align="left"><a href="mailto:amoreaul@abc.de">amoreaul@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">29</td>
+<td align="left">2021-10-01</td>
+<td align="left">Bernardin</td>
+<td align="left">Stéphanie</td>
+<td align="left"><a href="mailto:sbernard1@chezmoi.net">sbernard1@chezmoi.net</a></td>
+</tr>
+</tbody>
+</table><hr>
+<h3 id="combiner-les-jointures">Combiner les jointures</h3>
+<p>Plutôt que d’afficher l’<code>id_album</code>, qui est peu lisible, on peut préférer afficher le titre de l’album. Mais pour récupérer cette information dans la table <code>Album</code>, il faut une nouvelle jointure :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> Album<span class="token punctuation">.</span>titre<span class="token punctuation">,</span> Emprunt<span class="token punctuation">.</span>jour<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>nom<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>prenom<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>email
+<span class="token keyword">FROM</span> Emprunt
+<span class="token keyword">JOIN</span> Client <span class="token keyword">ON</span> Emprunt<span class="token punctuation">.</span>id_client <span class="token operator">=</span> Client<span class="token punctuation">.</span>id_client
+<span class="token keyword">JOIN</span> Album <span class="token keyword">ON</span> Emprunt<span class="token punctuation">.</span>id_album <span class="token operator">=</span> Album<span class="token punctuation">.</span>id_album<span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Analyse :</strong> On a ajouté la dernière ligne qui permet de faire une jointure sur l’attribut <code>id_album</code> entre la table produite par la requête précédente et la table <code>Album</code>. Et on a remplacé la première colonne <code>Emprunt.id_album</code> par <code>Album.titre</code> pour faire apparaître les titres des albums comme souhaité :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">titre</th>
+<th align="left">jour</th>
+<th align="left">nom</th>
+<th align="left">prenom</th>
+<th align="left">email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Axis: Bold As Love</td>
+<td align="left">2021-09-10</td>
+<td align="left">Dupont</td>
+<td align="left">Florine</td>
+<td align="left"><a href="mailto:dupont.florine@domaine.net">dupont.florine@domaine.net</a></td>
+</tr>
+<tr>
+<td align="left">Riding With The King</td>
+<td align="left">2021-08-18</td>
+<td align="left">Marchand</td>
+<td align="left">Grégoire</td>
+<td align="left"><a href="mailto:greg.marchand49@music.com">greg.marchand49@music.com</a></td>
+</tr>
+<tr>
+<td align="left">Continuum</td>
+<td align="left">2021-08-18</td>
+<td align="left">Marchand</td>
+<td align="left">Grégoire</td>
+<td align="left"><a href="mailto:greg.marchand49@music.com">greg.marchand49@music.com</a></td>
+</tr>
+<tr>
+<td align="left">Continuum</td>
+<td align="left">2021-09-12</td>
+<td align="left">Pacot</td>
+<td align="left">Jean</td>
+<td align="left"><a href="mailto:jpacot@music.com">jpacot@music.com</a></td>
+</tr>
+<tr>
+<td align="left">Thriller</td>
+<td align="left">2021-10-10</td>
+<td align="left">Pacot</td>
+<td align="left">Jean</td>
+<td align="left"><a href="mailto:jpacot@music.com">jpacot@music.com</a></td>
+</tr>
+<tr>
+<td align="left">Power Up</td>
+<td align="left">2021-09-28</td>
+<td align="left">Dubois</td>
+<td align="left">Philippe</td>
+<td align="left"><a href="mailto:pdubois5@chezmoi.net">pdubois5@chezmoi.net</a></td>
+</tr>
+<tr>
+<td align="left">Let It Be</td>
+<td align="left">2021-10-08</td>
+<td align="left">Fournier</td>
+<td align="left">Marie</td>
+<td align="left"><a href="mailto:mfournier@abc.de">mfournier@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">44/876</td>
+<td align="left">2021-10-08</td>
+<td align="left">Moreau</td>
+<td align="left">Alain</td>
+<td align="left"><a href="mailto:amoreaul@abc.de">amoreaul@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">Songs in the Key of Life</td>
+<td align="left">2021-10-08</td>
+<td align="left">Moreau</td>
+<td align="left">Alain</td>
+<td align="left"><a href="mailto:amoreaul@abc.de">amoreaul@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">Lady Soul</td>
+<td align="left">2021-10-15</td>
+<td align="left">Moreau</td>
+<td align="left">Alain</td>
+<td align="left"><a href="mailto:amoreaul@abc.de">amoreaul@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">Leave the Light On</td>
+<td align="left">2021-10-01</td>
+<td align="left">Bernardin</td>
+<td align="left">Stéphanie</td>
+<td align="left"><a href="mailto:sbernard1@chezmoi.net">sbernard1@chezmoi.net</a></td>
+</tr>
+</tbody>
+</table><p>On peut combiner les jointures avec tout ce qui a été vu précédemment, par exemple ajouter des conditions, trier, etc.</p>
+<p>La requête :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> Album<span class="token punctuation">.</span>titre<span class="token punctuation">,</span> Emprunt<span class="token punctuation">.</span>jour<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>nom<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>prenom<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>email
+<span class="token keyword">FROM</span> Emprunt
+<span class="token keyword">JOIN</span> Client <span class="token keyword">ON</span> Emprunt<span class="token punctuation">.</span>id_client <span class="token operator">=</span> Client<span class="token punctuation">.</span>id_client
+<span class="token keyword">JOIN</span> Album <span class="token keyword">ON</span> Emprunt<span class="token punctuation">.</span>id_album <span class="token operator">=</span> Album<span class="token punctuation">.</span>id_album
+<span class="token keyword">WHERE</span> Emprunt<span class="token punctuation">.</span>jour <span class="token operator">&gt;=</span> <span class="token string">'2021-10-02'</span>
+<span class="token keyword">ORDER</span> <span class="token keyword">BY</span> Client<span class="token punctuation">.</span>nom <span class="token keyword">ASC</span><span class="token punctuation">;</span>
+</code></pre>
+<p>permet de récupérer les mêmes informations qu’au-dessus mais seulement pour les emprunts à partir du 2 octobre 2021, les résultats étant triés par ordre alphabétique des noms des emprunteurs.</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">titre</th>
+<th align="left">jour</th>
+<th align="left">nom</th>
+<th align="left">prenom</th>
+<th align="left">email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Let It Be</td>
+<td align="left">2021-10-08</td>
+<td align="left">Fournier</td>
+<td align="left">Marie</td>
+<td align="left"><a href="mailto:mfournier@abc.de">mfournier@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">44/876</td>
+<td align="left">2021-10-08</td>
+<td align="left">Moreau</td>
+<td align="left">Alain</td>
+<td align="left"><a href="mailto:amoreaul@abc.de">amoreaul@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">Songs in the Key of Life</td>
+<td align="left">2021-10-08</td>
+<td align="left">Moreau</td>
+<td align="left">Alain</td>
+<td align="left"><a href="mailto:amoreaul@abc.de">amoreaul@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">Lady Soul</td>
+<td align="left">2021-10-15</td>
+<td align="left">Moreau</td>
+<td align="left">Alain</td>
+<td align="left"><a href="mailto:amoreaul@abc.de">amoreaul@abc.de</a></td>
+</tr>
+<tr>
+<td align="left">Thriller</td>
+<td align="left">2021-10-10</td>
+<td align="left">Pacot</td>
+<td align="left">Jean</td>
+<td align="left"><a href="mailto:jpacot@music.com">jpacot@music.com</a></td>
+</tr>
+</tbody>
+</table><hr>
+<h3 id="utiliser-des-alias">Utiliser des alias</h3>
+<p>Certaines requêtes peuvent commencer à être assez longues à écrire. Pour réduire leur longueur, on peut utiliser des <strong>alias</strong> pour les noms de table grâce au mot-clé <code>AS</code>.</p>
+<p>Ainsi, la requête précédente peut aussi s’écrire :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token number">a</span><span class="token punctuation">.</span>titre<span class="token punctuation">,</span> <span class="token number">e</span><span class="token punctuation">.</span>jour<span class="token punctuation">,</span> <span class="token number">c</span><span class="token punctuation">.</span>nom<span class="token punctuation">,</span> <span class="token number">c</span><span class="token punctuation">.</span>prenom<span class="token punctuation">,</span> <span class="token number">c</span><span class="token punctuation">.</span>email
+<span class="token keyword">FROM</span> Emprunt <span class="token keyword">AS</span> <span class="token number">e</span>
+<span class="token keyword">JOIN</span> Client <span class="token keyword">AS</span> <span class="token number">c</span> <span class="token keyword">ON</span> <span class="token number">e</span><span class="token punctuation">.</span>id_client <span class="token operator">=</span> <span class="token number">c</span><span class="token punctuation">.</span>id_client
+<span class="token keyword">JOIN</span> Album <span class="token keyword">AS</span> <span class="token number">a</span> <span class="token keyword">ON</span> <span class="token number">e</span><span class="token punctuation">.</span>id_album <span class="token operator">=</span> <span class="token number">a</span><span class="token punctuation">.</span>id_album
+<span class="token keyword">WHERE</span> <span class="token number">e</span><span class="token punctuation">.</span>jour <span class="token operator">&gt;=</span> <span class="token string">'2021-10-02'</span>
+<span class="token keyword">ORDER</span> <span class="token keyword">BY</span> <span class="token number">c</span><span class="token punctuation">.</span>nom <span class="token keyword">ASC</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Analyse :</strong> <code>Emprunt AS e</code> permet de renommer la table <code>Emprunt</code> par <code>e</code>, ce qui permet de raccourcir les écritures du type <code>Emprunt.id_client</code> en <code>e.id_client</code>. Idem pour <code>c</code> et <code>a</code> qui sont les alias respectifs des tables <code>Client</code> et <code>Album</code>.</p>
+<hr>
+<h2 id="modifier-des-données">Modifier des données</h2>
+<p><em>Faites les exercices 4 et 5.</em></p>
+<p>Les données stockées dans une base de données n’ont pas vocation à être figées, elles peuvent être modifiées au cours du temps grâce à des <strong>requêtes de mise à jour</strong> de la base de données.</p>
+<p>Nous allons voir les requêtes permettant d’ajouter des données à une table, de modifier les données d’une table et de supprimer les données d’une table.</p>
+<p>Avant cela, faisons une petite digression sur la création de tables dans une base de données.</p>
+<hr>
+<h3 id="créer-une-table-avec-create-table">Créer une table avec <code>CREATE TABLE</code></h3>
+<blockquote>
+<p><strong>Information :</strong> La création d’une base de données n’est pas au programme de Terminale NSI. Néanmoins, connaître les requêtes permettant de créer une table permet de mieux appréhender les requêtes de mise à jour que l’on verra ensuite.</p>
+</blockquote>
+<p>Créer une base de données consiste à créer les tables de la base. Pour créer une table, on utilise <code>CREATE TABLE</code>.</p>
+<p>Par exemple, pour créer la table <code>Artiste</code> correspondant à la relation suivante :<br>
+<code>Artiste (id_artiste INT, nom TEXT, prenom TEXT)</code></p>
+<p>on peut exécuter cette commande SQL :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> Artiste <span class="token punctuation">(</span>
+    id_artiste <span class="token keyword">INTEGER</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+    nom <span class="token keyword">TEXT</span><span class="token punctuation">,</span>
+    prenom <span class="token keyword">TEXT</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p><strong>Remarque :</strong> On a bien précisé le nom et le type de chaque attribut, et indiqué avec <code>PRIMARY KEY</code> quelle était notre clé primaire.</p>
+</blockquote>
+<hr>
+<h3 id="insérer-des-données-avec-insert-into-...-values">Insérer des données avec <code>INSERT INTO ... VALUES</code></h3>
+<p>Supposons que l’on veuille insérer les 3 enregistrements suivants dans la table <code>Artiste</code> :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">id_artiste</th>
+<th align="left">nom</th>
+<th align="left">prenom</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="left">Clapton</td>
+<td align="left">Éric</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">Mayall</td>
+<td align="left">John</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">Hendrix</td>
+<td align="left">Jimi</td>
+</tr>
+</tbody>
+</table><p>Pour cela, on peut écrire la requête SQL :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> Artiste <span class="token keyword">VALUES</span> 
+<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'Clapton'</span><span class="token punctuation">,</span> <span class="token string">'Éric'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'Mayall'</span><span class="token punctuation">,</span> <span class="token string">'John'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">'Hendrix'</span><span class="token punctuation">,</span> <span class="token string">'Jimi'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Analyse :</strong></p>
+<ul>
+<li>Après <code>INSERT INTO</code> (que l’on traduit par “insérer dans”), on indique le nom de la table dans laquelle on veut insérer des données ;</li>
+<li>Puis on indique grâce au mot-clé <code>VALUES</code> les enregistrements que l’on veut insérer, ces derniers étant séparés par des virgules s’il y en a plusieurs (on n’oublie pas le <code>;</code> pour terminer) ;</li>
+<li>Avec cette requête, les valeurs des différents enregistrements (ou <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathnormal">n</span></span></span></span></span>-uplets) doivent être données dans le même ordre que lors du <code>CREATE TABLE</code>. Néanmoins, il est possible de les passer dans un ordre différent comme on l’explique juste en dessous.</li>
+</ul>
+<p>Si on désire passer les valeurs des enregistrements dans un ordre différent de celui de la création de la table, il suffit de préciser l’ordre juste après le nom de la table :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> Artiste <span class="token punctuation">(</span>prenom<span class="token punctuation">,</span> nom<span class="token punctuation">,</span> id_artiste<span class="token punctuation">)</span> <span class="token keyword">VALUES</span> <span class="token punctuation">(</span><span class="token string">'John'</span><span class="token punctuation">,</span> <span class="token string">'Mayer'</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>On peut vérifier en affichant les 4 enregistrements ainsi insérés dans la table <code>Artiste</code> :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> Artiste<span class="token punctuation">;</span>
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th align="left">id_artiste</th>
+<th align="left">nom</th>
+<th align="left">prenom</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="left">Clapton</td>
+<td align="left">Éric</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">Mayall</td>
+<td align="left">John</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">Hendrix</td>
+<td align="left">Jimi</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">Mayer</td>
+<td align="left">John</td>
+</tr>
+</tbody>
+</table><h4 id="respect-de-la-contrainte-de-relation">Respect de la contrainte de relation</h4>
+<p>On rappelle que le SGBD est garant du respect des contraintes d’intégrité de la base (voir Chapitre 1). En particulier, de la contrainte de relation qui impose que chaque enregistrement d’une relation doit posséder une clé primaire unique.</p>
+<p>Ainsi, si on essaie d’insérer un nouvel enregistrement avec une clé primaire existante, le SGBD n’acceptera pas l’insertion proposée en indiquant l’erreur :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> Artiste <span class="token keyword">VALUES</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'Dylan'</span><span class="token punctuation">,</span> <span class="token string">'Bob'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><em><code>UNIQUE constraint failed: Artiste.id_artiste</code></em></p>
+<p>La base de données ne sera alors pas modifiée !</p>
+<blockquote>
+<p><strong>Remarque :</strong> Pour ne pas avoir à saisir nous-mêmes l’attribut <code>id_artiste</code> de chaque artiste, on aurait pu indiquer au SGBD d’utiliser le principe d’auto-incrément : dès qu’un nouvel enregistrement est inséré, <code>id_artiste</code> est incrémenté automatiquement d’une unité. Pour cela, la commande de création de la table aurait été :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> Artiste <span class="token punctuation">(</span>
+    id_artiste <span class="token keyword">INTEGER</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span> AUTOINCREMENT<span class="token punctuation">,</span>
+    nom <span class="token keyword">TEXT</span><span class="token punctuation">,</span>
+    prenom <span class="token keyword">TEXT</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>et on aurait pu insérer les enregistrements sans préciser l’attribut <code>id_artiste</code> :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> Artiste <span class="token punctuation">(</span>nom<span class="token punctuation">,</span> prenom<span class="token punctuation">)</span> <span class="token keyword">VALUES</span> 
+<span class="token punctuation">(</span><span class="token string">'Clapton'</span><span class="token punctuation">,</span> <span class="token string">'Éric'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token string">'Mayall'</span><span class="token punctuation">,</span> <span class="token string">'John'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token string">'Hendrix'</span><span class="token punctuation">,</span> <span class="token string">'Jimi'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>On doit alors préciser que l’on ne saisit que les attributs <code>nom</code> et <code>prenom</code>. Dans ce cas, l’insertion d’un nouvel enregistrement s’écrit :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> Artiste <span class="token punctuation">(</span>nom<span class="token punctuation">,</span> prenom<span class="token punctuation">)</span> <span class="token keyword">VALUES</span> <span class="token punctuation">(</span><span class="token string">'Dylan'</span><span class="token punctuation">,</span> <span class="token string">'Bob'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>et le SGBD détermine lui-même l’attribut <code>id_artiste</code> lors de l’insertion.</p>
+</blockquote>
+<blockquote>
+<p><strong>Information :</strong> Pour voir le code SQL qui a permis de créer la base de données du disquaire, vous pouvez consulter la ressource en ligne. Regardez notamment comment on a lié les tables avec les clés étrangères en utilisant <code>REFERENCES</code> et comment on définit la réunion de plusieurs attributs comme clé primaire. Vous constaterez également que l’on n’a pas utilisé le type <code>TEXT</code> pour le domaine des attributs de type “texte”. Enfin, vous trouverez dans ce fichier <code>.sql</code> les ordres d’insertions des différents enregistrements de chaque table.</p>
+</blockquote>
+<hr>
+<h3 id="modifier-une-valeur-avec-update-...-set">Modifier une valeur avec <code>UPDATE ... SET</code></h3>
+<p>Il est possible de modifier des valeurs existantes dans une table avec <code>UPDATE</code>.</p>
+<p>Par exemple, le client :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">id_client</th>
+<th align="left">nom</th>
+<th align="left">prenom</th>
+<th align="left">email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">4</td>
+<td align="left">Michel</td>
+<td align="left">Valérie</td>
+<td align="left"><a href="mailto:vmichel5@monmail.com">vmichel5@monmail.com</a></td>
+</tr>
+</tbody>
+</table><p>a changé d’adresse email. Pour modifier cette adresse dans la base de données, on peut écrire :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">UPDATE</span> Client <span class="token keyword">SET</span> email <span class="token operator">=</span> <span class="token string">'valerie.michel@email.fr'</span>
+<span class="token keyword">WHERE</span> id_client <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Analyse :</strong></p>
+<ul>
+<li>Après <code>UPDATE</code>, on indique le nom de la table dans laquelle on veut modifier une valeur (ici <code>Client</code>) ;</li>
+<li>Ensuite, on écrit <code>SET</code> puis une expression de la forme <code>attribut = nouvelle_valeur</code> (ici <code>'valerie.michel@email.fr'</code> est la nouvelle valeur de l’attribut <code>email</code>) ;</li>
+<li>Enfin, on précise avec <code>WHERE</code> la condition permettant de sélectionner les enregistrements sur lesquels la modification doit être apportée (ici une seule ligne car la condition <code>id_client = 4</code> ne correspond qu’à un seul enregistrement).</li>
+</ul>
+<p>On peut vérifier que la modification a bien été faite :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> Client <span class="token keyword">WHERE</span> id_client <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th align="left">id_client</th>
+<th align="left">nom</th>
+<th align="left">prenom</th>
+<th align="left">email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">4</td>
+<td align="left">Michel</td>
+<td align="left">Valérie</td>
+<td align="left"><a href="mailto:valerie.michel@email.fr">valerie.michel@email.fr</a></td>
+</tr>
+</tbody>
+</table><hr>
+<h3 id="supprimer-un-enregistrement-avec-delete">Supprimer un enregistrement avec <code>DELETE</code></h3>
+<p>Il est possible de supprimer une ligne d’une table en utilisant <code>DELETE</code>.</p>
+<p>Par exemple, le client Marchand Grégoire a rendu l’album <em>Continuum</em> (dont l’attribut <code>id_album</code> vaut 25) qu’il avait emprunté. Il faut supprimer la ligne correspondante dans la table <code>Emprunt</code> :</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">id_client</th>
+<th align="left">id_album</th>
+<th align="left">jour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="left">5</td>
+<td align="left">2021-09-10</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">8</td>
+<td align="left">2021-08-18</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">24</td>
+<td align="left">2021-08-18</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">25</td>
+<td align="left">2021-09-12</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">6</td>
+<td align="left">2021-10-10</td>
+</tr>
+<tr>
+<td align="left">9</td>
+<td align="left">20</td>
+<td align="left">2021-09-28</td>
+</tr>
+<tr>
+<td align="left">11</td>
+<td align="left">14</td>
+<td align="left">2021-10-08</td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">15</td>
+<td align="left">2021-10-08</td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">19</td>
+<td align="left">2021-10-08</td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">16</td>
+<td align="left">2021-10-15</td>
+</tr>
+<tr>
+<td align="left">16</td>
+<td align="left">29</td>
+<td align="left">2021-10-01</td>
+</tr>
+</tbody>
+</table><p>Pour cela, on peut écrire l’ordre suivant :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">DELETE</span> <span class="token keyword">FROM</span> Emprunt
+<span class="token keyword">WHERE</span> id_album <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Analyse :</strong></p>
+<ul>
+<li>Après <code>DELETE</code>, on indique dans quelle table on veut supprimer une ligne avec <code>FROM [nom_table]</code> ;</li>
+<li>Ensuite, on précise avec <code>WHERE</code> la condition permettant de sélectionner les enregistrements à supprimer (ici une seule ligne est supprimée car la condition <code>id_album = 25</code> ne correspond qu’à un seul enregistrement).</li>
+</ul>
+<p>On peut vérifier que la ligne correspondante a bien été supprimée de la table <code>Emprunt</code> :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> Emprunt<span class="token punctuation">;</span>
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th align="left">id_client</th>
+<th align="left">id_album</th>
+<th align="left">jour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="left">5</td>
+<td align="left">2021-09-10</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">8</td>
+<td align="left">2021-08-18</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">24</td>
+<td align="left">2021-08-18</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">6</td>
+<td align="left">2021-10-10</td>
+</tr>
+<tr>
+<td align="left">9</td>
+<td align="left">20</td>
+<td align="left">2021-09-28</td>
+</tr>
+<tr>
+<td align="left">11</td>
+<td align="left">14</td>
+<td align="left">2021-10-08</td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">15</td>
+<td align="left">2021-10-08</td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">19</td>
+<td align="left">2021-10-08</td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">16</td>
+<td align="left">2021-10-15</td>
+</tr>
+<tr>
+<td align="left">16</td>
+<td align="left">29</td>
+<td align="left">2021-10-01</td>
+</tr>
+</tbody>
+</table><blockquote>
+<p><strong>Remarque :</strong> Avec le schéma de la base de données, il faut aussi mettre à jour la table <code>Album</code> puisque l’album en question est à nouveau disponible. La requête de mise à jour suivante permet de faire cela :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">UPDATE</span> Album
+<span class="token keyword">SET</span> dispo <span class="token operator">=</span> <span class="token number">1</span>
+<span class="token keyword">WHERE</span> id_album <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span>
+</code></pre>
+</blockquote>
+<h4 id="respect-des-contraintes-de-référence">Respect des contraintes de référence</h4>
+<p>Le SGBD est garant du respect des contraintes de référence (voir Chapitre 1). L’une d’elles consiste à ne pas pouvoir supprimer un enregistrement si sa clé primaire est associée à des enregistrements liés dans d’autres tables (liés par une clé étrangère !).</p>
+<p>Par exemple, si on essaie de supprimer de la relation <code>Client</code> le client “Dupont Florine”, dont l’attribut <code>id_client</code> est 1, le SGBD empêchera la suppression car ce client apparaît dans la relation <code>Emprunt</code> en tant que clé étrangère (si la suppression était effectuée, cette clé étrangère ne ferait plus référence à une clé primaire de la table <code>Client</code>, ce qui est impossible par définition d’une clé étrangère).</p>
+<p>Ainsi, l’exécution de la requête :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">DELETE</span> <span class="token keyword">FROM</span> Client
+<span class="token keyword">WHERE</span> id_client <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+</code></pre>
+<p>produit l’erreur suivante :<br>
+<em><code>FOREIGN KEY constraint failed</code></em></p>
+<blockquote>
+<p><strong>Information :</strong> Il est possible d’apporter d’autres types de modifications à une table, mais elles ne sont a priori pas exigibles en Terminale NSI. Voir par exemple les commandes <a href="https://sql.sh/cours/alter-table">ALTER TABLE</a> et <a href="https://sql.sh/cours/drop-table">DROP TABLE</a>.</p>
+</blockquote>
+<hr>
+<h2 id="bilan">Bilan</h2>
+<ul>
+<li>Ce sont les logiciels de type <strong>SGBD</strong> qui jouent le rôle d’interface entre l’humain et la base de données. Il existe différentes sortes de SGBD (gratuits, payants, libres, propriétaires). On a utilisé le SGBD <strong>SQLite</strong> pour sa simplicité d’utilisation.</li>
+<li>On peut utiliser le langage <strong>SQL</strong> pour écrire des requêtes destinées à donner des ordres à la base de données. On distingue deux types de requêtes : les <strong>requêtes d’interrogation</strong> et les <strong>requêtes de mise à jour</strong>.</li>
+<li>Les requêtes d’interrogation permettent de trouver toutes les lignes d’une table vérifiant un certain critère booléen. Si les données à trouver sont réparties dans plusieurs tables, on utilise une <strong>jointure</strong> (<code>JOIN</code>) pour fusionner les tables.</li>
+<li>Les requêtes de mise à jour apportent des modifications aux données enregistrées. Cela peut être des insertions (<code>INSERT INTO</code>), des modifications (<code>UPDATE</code>) ou des suppressions (<code>DELETE</code>) de lignes.</li>
+<li>Des opérateurs avancés permettent de trier les résultats selon un certain critère (<code>ORDER BY</code>), de supprimer les doublons des résultats (<code>DISTINCT</code>). Des fonctions d’agrégation (<code>COUNT</code>, <code>MIN</code>, <code>MAX</code>, <code>AVG</code>, <code>SUM</code>) permettent de faire des calculs sur les données d’une colonne.</li>
+<li>Une modification qui ne provoque pas d’erreur est définitive. En revanche, le SGBD ne réalisera concrètement des modifications que si ces dernières ne violent pas les <strong>contraintes d’intégrité</strong> (voir Chapitre 1).</li>
+</ul>
+<hr>
+<h2 id="références">Références</h2>
+<ul>
+<li>Équipe éducative DIU EIL, Université de Nantes.</li>
+<li><em>Numérique et Sciences Informatiques, 24 leçons, Terminale</em>, T. BALABONSKI, S. CONCHON, J.-C. FILLIÂTRE, K. NGUYEN, éditions ELLIPSES.</li>
+<li><em>Prepabac NSI, Tle</em>, G. Connan, V. Petrov, G. Rozsavölgyi, L. Signac, éditions HATIER.</li>
+<li>Cours de Gilles Lassus sur le langage SQL.</li>
+<li>Cours de David Roche sur le langage SQL.</li>
+<li>Site <a href="https://sql.sh/">https://sql.sh/</a> sur le langage SQL.</li>
+</ul>
+<hr>
+
+    </div>
+  </div>
+  </div>
+  </section>
+
+
+
+ 
+
+<!-- ================= PIED DE PAGE ================= -->
+<svg class="vague-bas" viewBox="0 0 1440 60" preserveAspectRatio="none">
+  <path d="M0,30 C240,-10 480,50 720,25 C960,0 1200,45 1440,20 L1440,60 L0,60 Z" fill="#233447"></path>
+</svg>
+<footer>
+  
+  <p>DIU EIL AEFE 2026 — spécialité Numérique et Sciences Informatiques, classe de terminale générale</p>
+</footer>
+
+
+
+</body>
+</html>
