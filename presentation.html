@@ -7,6 +7,23 @@
   <title>projet</title>
   <link rel="stylesheet" href="https://stackedit.io/style.css" />
   <style>
+    .mon-bloc {
+  width: 80%;           /* Largeur du bloc */
+  max-width: 800px;     /* Largeur maximale */
+  margin-left: auto;    /* Pousse à gauche */
+  margin-right: auto;   /* Pousse à droite -> centre le bloc */
+}
+    .conteneur-parent {
+  display: flex;
+  flex-direction: column;  /* Empile les éléments les uns sous les autres */
+  align-items: center;     /* Centre tous les enfants horizontalement */
+  justify-content: center; /* Centre verticalement (si une hauteur est définie) */
+  min-height: 100vh;       /* Prend toute la hauteur de l'écran */
+}
+    p {
+  text-align: justify; /* Justifie le texte (bords gauche et droit alignés) */
+  /* Valeurs alternatives : left (gauche), center (centré), right (droite) */
+}
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
