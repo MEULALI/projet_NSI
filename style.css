@@ -1,0 +1,197 @@
+<style>
+    .mon-bloc {
+  width: 80%;           /* Largeur du bloc */
+  max-width: 800px;     /* Largeur maximale */
+  margin-left: auto;    /* Pousse à gauche */
+  margin-right: auto;   /* Pousse à droite -> centre le bloc */
+}
+    .conteneur-parent {
+  display: flex;
+  flex-direction: column;  /* Empile les éléments les uns sous les autres */
+  align-items: center;     /* Centre tous les enfants horizontalement */
+  justify-content: center; /* Centre verticalement (si une hauteur est définie) */
+  min-height: 100vh;       /* Prend toute la hauteur de l'écran */
+}
+    p {
+  text-align: justify; /* Justifie le texte (bords gauche et droit alignés) */
+  /* Valeurs alternatives : left (gauche), center (centré), right (droite) */
+}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --mer: #1b6ca8;
+    --mer-clair: #3aa5d8;
+    --sable: #f6efe4;
+    --soleil: #f2a541;
+    --terre: #c9523f;
+    --texte: #233447;
+    --blanc: #ffffff;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    color: var(--texte);
+    background: var(--sable);
+    line-height: 1.6;
+  }
+   /* ==========================================================
+   MISE EN FORME GLOBALE : TITRES, PARAGRAPHES ET TABLEAUX
+   ========================================================== */
+
+/* 1. Typographie et Paragraphes */
+.md-typeset {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #2c3e50;
+}
+
+.md-typeset p {
+  margin-bottom: 1em;
+}
+
+/* 2. Titres (Hiérarchie visuelle claire) */
+.md-typeset h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a252f;
+  margin-top: 1.2em;
+  margin-bottom: 0.6em;
+  border-bottom: 2px solid #3f51b5; /* Touche colorée élégante */
+  padding-bottom: 0.3em;
+}
+
+.md-typeset h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-top: 1.4em;
+  margin-bottom: 0.5em;
+}
+
+.md-typeset h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #34495e;
+  margin-top: 1.2em;
+}
+
+/* 3. Tableaux (Design moderne, lisible et responsive) */
+.md-typeset table:not([class]) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  font-size: 0.9rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: #3f51b5;
+  color: #ffffff;
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 16px;
+}
+
+.md-typeset table:not([class]) td {
+  padding: 10px 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Effet zébré léger pour faciliter la lecture des lignes */
+.md-typeset table:not([class]) tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.md-typeset table:not([class]) tr:hover {
+  background-color: #f1f3f5;
+}
+
+/* Adaptation mobile pour les tableaux (scroll horizontal si nécessaire) */
+@media screen and (max-width: 768px) {
+  .md-typeset table:not([class]) {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+    /* ==========================================================
+   JUSTIFICATION ET MISE EN FORME DES PARAGRAPHES
+   ========================================================== */
+
+/* Justifie le texte des paragraphes principaux */
+.md-typeset p {
+  text-align: justify;
+  text-justify: inter-word; /* Améliore l'espacement entre les mots sur les navigateurs compatibles */
+  hyphens: auto;           /* Gère les césures (coupures de mots) pour éviter les grands espaces */
+  margin-bottom: 1em;
+}
+
+/* Optionnel : Ne pas justifier le texte à l'intérieur des listes ou des blocs spécifiques */
+.md-typeset li p,
+.md-typeset .admonition p,
+.md-typeset table p {
+  text-align: left;
+}
+  /* Style global du tableau */
+.styled-table {
+  border-collapse: collapse; /* Supprime les doubles bordures */
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); /* Légère ombre portée */
+  border-radius: 5px 5px 0 0; /* Coins arrondis en haut */
+  overflow: hidden; /* Nécessaire pour que le border-radius s'applique à l'en-tête */
+  width: 100%;
+}
+
+/* Style de l'en-tête */
+.styled-table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+/* Espacement et bordures des cellules */
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+/* Lignes du corps du tableau */
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+/* Effet zébré (une ligne sur deux) */
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+/* Suppression de la bordure sur la dernière ligne */
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+/* Effet au survol de la souris */
+.styled-table tbody tr:hover {
+  background-color: #f1f1f1;
+  color: #009879;
+  cursor: pointer;
+}
+ul, ol {
+  padding-left: 30px; /* Décale les puces et le texte vers la droite de manière uniforme */
+}
+      /* ===== Pied de page ===== */
+  footer {
+    background: var(--texte);
+    color: #fff;
+    text-align: center;
+    padding: 25px 20px;
+    font-size: 14px;
+  }
+
+  footer .vague-bas { margin-bottom: 15px; display: block; width: 100%; }
