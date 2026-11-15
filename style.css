@@ -336,3 +336,129 @@ ul, ol {
     min-width: 120px;
   }
 }
+/* ===== Contenu du cours : mise en page plus aérée ===== */
+.zone-vote {
+  padding: clamp(24px, 5vw, 56px);
+  text-align: left;
+}
+
+.stackedit__html {
+  max-width: 780px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* Espacement du texte */
+.stackedit__html p {
+  margin: 0 0 1.25rem;
+}
+
+.stackedit__html ul,
+.stackedit__html ol {
+  margin: 0 0 1.75rem;
+  padding-left: 1.6rem;
+}
+
+.stackedit__html li {
+  margin-bottom: 0.65rem;
+  padding-left: 0.25rem;
+}
+
+/* Hiérarchie des titres */
+.stackedit__html > h1 {
+  margin-bottom: 2rem;
+  color: var(--mer);
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  line-height: 1.2;
+}
+
+.stackedit__html h2 {
+  display: block;
+  margin: 3.5rem 0 1.5rem;
+  padding: 1rem 1.25rem;
+  border-left: 5px solid var(--soleil);
+  border-radius: 0 8px 8px 0;
+  background: #f3f7fa;
+  color: var(--mer);
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  line-height: 1.35;
+}
+
+.stackedit__html h2::after {
+  display: none;
+}
+
+.stackedit__html h3 {
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #d9e1e8;
+  color: var(--terre);
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+
+.stackedit__html hr {
+  margin: 3rem 0;
+  border: 0;
+  border-top: 1px solid #d9e1e8;
+}
+
+/* Blocs de code et citations */
+.stackedit__html pre {
+  margin: 1.5rem 0 2rem;
+  padding: 1.25rem;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: #233447;
+  color: #fff;
+  line-height: 1.7;
+}
+
+.stackedit__html blockquote {
+  margin: 1.5rem 0 2rem;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--soleil);
+  border-radius: 0 8px 8px 0;
+  background: #fff8ed;
+}
+
+/* Tableaux */
+.stackedit__html table {
+  width: 100%;
+  margin: 1.5rem 0 2rem;
+  border-collapse: collapse;
+}
+
+.stackedit__html th,
+.stackedit__html td {
+  padding: 0.9rem 1rem;
+  border: 1px solid #d9e1e8;
+  text-align: left;
+  vertical-align: top;
+}
+
+.stackedit__html th {
+  background: var(--mer);
+  color: #fff;
+}
+
+.stackedit__html tr:nth-child(even) td {
+  background: #f3f7fa;
+}
+
+/* Adaptation aux petits écrans */
+@media (max-width: 600px) {
+  .zone-vote {
+    padding: 22px 18px;
+  }
+
+  .stackedit__html h2 {
+    margin-top: 2.5rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .stackedit__html table {
+    display: block;
+    overflow-x: auto;
+  }
+}
