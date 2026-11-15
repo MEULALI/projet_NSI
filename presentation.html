@@ -25,6 +25,63 @@
     background: var(--sable);
     line-height: 1.6;
   }
+    /* ==========================================================
+   OPTIMISATIONS MOBILES POUR MKDOCS MATERIAL (NSI / SNT)
+   ========================================================== */
+
+/* 1. Amélioration des marges et du padding sur petits écrans */
+@media screen and (max-width: 768px) {
+  /* Réduit les marges globales pour maximiser l'espace utile */
+  .md-main__inner {
+    margin: 0 !important;
+  }
+  
+  .md-content {
+    padding: 0.8rem !important;
+  }
+
+  /* Ajustement de la taille du titre principal */
+  h1 {
+    font-size: 1.6rem !important;
+  }
+  
+  h2 {
+    font-size: 1.3rem !important;
+  }
+}
+
+/* 2. Tableaux responsives (évite le débordement horizontal) */
+.md-typeset table:not([class]) {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 3. Images fluides adaptées à la largeur des smartphones */
+.md-typeset img, 
+.md-typeset video {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+/* 4. Gestion des blocs de code sur mobile */
+.md-typeset pre > code {
+  font-size: 0.85em;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+/* 5. Ajustement des blocs d'avertissement / admonitions sur mobile */
+@media screen and (max-width: 768px) {
+  .md-typeset .admonition, 
+  .md-typeset details {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0 12px;
+  }
+}
     </style>
 </head>
 
