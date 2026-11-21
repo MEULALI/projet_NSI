@@ -1,0 +1,1240 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>exercices_sql</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#i.exercices-sql-interactifs">I.Exercices SQL interactifs</a>
+<ul>
+<li><a href="#exercice-1--bdd-du-disquaire---requêtes-portant-sur-une-table">Exercice 1 : BDD du disquaire - Requêtes portant sur une table</a></li>
+<li><a href="#sélectionner-des-colonnes">Sélectionner des colonnes</a></li>
+<li><a href="#sélectionner-des-lignes">Sélectionner des lignes</a></li>
+<li><a href="#trier-des-données">Trier des données</a></li>
+<li><a href="#supprimer-les-doublons-grâce-à-distinct">Supprimer les doublons grâce à DISTINCT</a></li>
+<li><a href="#compter-les-enregistrements">Compter les enregistrements</a></li>
+<li><a href="#recherche-par-motif">Recherche par motif</a></li>
+<li><a href="#exercice-2--bdd-du-disquaire---requêtes-croisées">Exercice 2 : BDD du disquaire - Requêtes croisées</a></li>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#première-jointure">Première jointure</a></li>
+<li><a href="#combiner-les-jointures">Combiner les jointures</a></li>
+<li><a href="#utiliser-des-alias">Utiliser des alias</a></li>
+<li><a href="#à-vous-de-jouer-">À vous de jouer !</a></li>
+<li><a href="#exercice-3---modifier-une-table">Exercice 3 - Modifier une table</a></li>
+<li><a href="#création-dune-table-avec-create-table">Création d’une table avec CREATE TABLE</a></li>
+<li><a href="#insertion-de-valeurs-dans-la-table-avec-insert-into-...-values">Insertion de valeurs dans la table avec INSERT INTO … VALUES</a></li>
+<li><a href="#modification-de-valeurs-avec-update-...-set">Modification de valeurs avec UPDATE … SET</a></li>
+<li><a href="#suppression-de-valeurs">Suppression de valeurs</a></li>
+<li><a href="#exercice-4---modification-de-la-base-du-disquaire">Exercice 4 - Modification de la base du disquaire</a></li>
+<li><a href="#exercice-5">Exercice 5:</a></li>
+</ul>
+</li>
+<li><a href="#ii.exercices-sql-débranchés">II.Exercices SQL débranchés</a>
+<ul>
+<li><a href="#exercice-1-">Exercice 1 :</a></li>
+<li><a href="#exercice-2">Exercice 2:</a></li>
+<li><a href="#exercice-3">Exercice 3:</a></li>
+<li><a href="#références">Références</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="i.exercices-sql-interactifs">I.Exercices SQL interactifs</h1>
+<h2 id="exercice-1--bdd-du-disquaire---requêtes-portant-sur-une-table">Exercice 1 : BDD du disquaire - Requêtes portant sur une table</h2>
+<p>L’objectif de cet exercice est de passer en revue la plupart des requêtes SQL d’interrogation portant sur une seule table.</p>
+<p>On travaillera avec la base de données <code>disquaire.db</code> que vous trouverez dans l’archive de ce chapitre. Vous utiliserez le logiciel DB Browser for SQLite ou le logiciel en ligne <a href="https://sqliteonline.com">sqliteonline.com</a> dans lesquels vous aurez au préalable ouvert la base de données en question.</p>
+<p>On rappelle que cette base de données possède le schéma relationnel suivant :</p>
+<ul>
+<li><code>Album(</code><strong><code>id_album</code></strong><code>INT, titre TEXT, annee INT, dispo BOOL)</code></li>
+<li><code>Artiste(</code><strong><code>id_artiste</code></strong><code>INT, nom TEXT, prenom TEXT)</code></li>
+<li><code>Artiste_de(</code><em><code>#id_artiste</code></em><code>,</code><em><code>#id_album</code></em><code>INT)</code></li>
+<li><code>Client(</code><strong><code>id_client</code></strong><code>INT, nom TEXT, prenom TEXT, email TEXT)</code></li>
+<li><code>Emprunt(</code><em><code>#id_client</code></em><code>,</code><em><code>#id_album</code></em><code>INT, jour DATE)</code><br>
+`</li>
+</ul>
+<p>On peut aussi représenter graphiquement ce schéma par le diagramme suivant :</p>
+<blockquote>
+<p><img src="https://info-mounier.fr/terminale_nsi/base_de_donnees/data/diagramme_bdd.png" alt="diagramme"><em>diagramme</em> (Réalisé avec l’application <a href="https://quickdatabasediagrams.com">quickdatabasediagrams.com</a>)</p>
+</blockquote>
+<h2 id="sélectionner-des-colonnes">Sélectionner des colonnes</h2>
+<p><strong>Q1</strong> : Traduisez par une phrase la requête suivante. Vérifiez ensuite votre réponse en l’exécutant.</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> Album<span class="token punctuation">;</span>
+</code></pre>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q2</strong> : Traduisez par une phrase la requête suivante. Vérifiez ensuite votre réponse en l’exécutant.</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> titre<span class="token punctuation">,</span> dispo <span class="token keyword">FROM</span> Album<span class="token punctuation">;</span>
+</code></pre>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q3</strong> : Écrivez et testez une requête permettant de récupérer uniquement les titres et l’année de sortie de chaque album.</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q4</strong> : Écrivez et testez une requête permettant de récupérer tous les attributs des clients.</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q5</strong> : Écrivez et testez une requête permettant de récupérer uniquement l’id_client, le nom et le prénom de chaque client.</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q6</strong> : Écrivez et testez une requête permettant de récupérer uniquement le nom et le prénom de chaque artiste.</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<h2 id="sélectionner-des-lignes">Sélectionner des lignes</h2>
+<p>En plus de sélectionner des colonnes, on peut sélectionner certaines lignes en utilisant la clause <code>WHERE</code> suivie de la condition de sélection.</p>
+<p><strong>Q7</strong> : Traduisez par une phrase la requête suivante. Vérifiez ensuite votre réponse en l’exécutant.</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> titre <span class="token keyword">FROM</span> Album <span class="token keyword">WHERE</span> dispo<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q8</strong> : Écrivez et testez une requête permettant de récupérer les titres de tous les albums sortis en 2000 ou après.<br>
+<em>Résultat attendu : 12 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q9</strong> : Écrivez et testez une requête permettant de récupérer tous les albums sortis en 1970.<br>
+<em>Résultat attendu : 3 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q10</strong> : Écrivez et testez une requête permettant de récupérer les titres de tous les albums sortis avant 1950 ou après 2010.<br>
+<em>Résultat attendu : 6 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q11</strong> : Écrivez et testez une requête permettant de récupérer tous les albums disponibles et sortis avant 1990.<br>
+<em>Résultat attendu : 13 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q12</strong> : Écrivez et testez une requête permettant de récupérer tous les clients dont le nom de famille est “Petit”.<br>
+<em>Résultat attendu : 2 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q13</strong> : Écrivez et testez une requête permettant de récupérer tous les clients dont le nom de famille est “Chartier”.<br>
+<em>Résultat attendu : 0 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q14</strong> : Écrivez et testez une requête permettant de récupérer les noms des artistes ne possédant pas de prénom.<br>
+<em>Résultat attendu : 6 enregistrements.</em></p>
+<blockquote>
+<p>🆘 Lisez cette page pour savoir comment tester si une valeur est absente avec SQLite : <a href="https://sql.sh/cours/where/is">https://sql.sh/cours/where/is</a></p>
+</blockquote>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<h2 id="trier-des-données">Trier des données</h2>
+<p>On peut trier des données en utilisant <code>ORDER BY</code> à la fin d’une requête, suivi de l’attribut à trier et de <code>ASC</code> (pour un tri croissant) ou <code>DESC</code> (pour un tri décroissant).</p>
+<p><strong>Q15</strong> : Traduisez par une phrase la requête suivante. Vérifiez ensuite votre réponse en l’exécutant.</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> Artiste <span class="token keyword">ORDER</span> <span class="token keyword">BY</span> nom <span class="token keyword">ASC</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q16</strong> : Écrivez et testez une requête permettant de récupérer les albums triés dans l’ordre décroissant de leur année de sortie.</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q17</strong> : Écrivez et testez une requête permettant de récupérer les titres par ordre alphabétique des albums sortis entre 1980 et 2010.<br>
+<em>Résultat attendu : 10 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q18</strong> : Écrivez et testez une requête permettant de récupérer les noms et prénoms de tous les clients, triés par ordre alphabétique des noms.</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q19</strong> : Écrivez et testez une requête permettant de récupérer les noms et prénoms de tous les clients, triés par ordre alphabétique des noms, puis des prénoms en cas de noms identiques.<br>
+Vous vérifierez bien que les clients portant le même nom sont bien triés alphabétiquement selon leur prénom (ce qui n’était pas le cas de la précédente requête).</p>
+<blockquote>
+<p>🆘 On peut trier des données selon plusieurs attributs en les écrivant après <code>ORDER BY</code> dans l’ordre souhaité et en les séparant par des virgules.</p>
+</blockquote>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<h2 id="supprimer-les-doublons-grâce-à-distinct">Supprimer les doublons grâce à DISTINCT</h2>
+<p>On peut supprimer les doublons grâce à <code>DISTINCT</code></p>
+<p><strong>Q20</strong> : Traduisez par une phrase la requête suivante. Vérifiez ensuite votre réponse en l’exécutant.</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token keyword">DISTINCT</span> id_client <span class="token keyword">FROM</span> Emprunt<span class="token punctuation">;</span>
+</code></pre>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q21</strong> : Écrivez et testez une requête permettant de récupérer les titres distincts des albums.<br>
+<em>Résultat attendu : 29 enregistrements (car un album était en double).</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<h2 id="compter-les-enregistrements">Compter les enregistrements</h2>
+<p>On peut compter le nombre d’enregistrements (ou tuples) en utilisant la fonction <code>COUNT()</code>.</p>
+<p><strong>Q22</strong> : Traduisez par une phrase la requête suivante. Vérifiez ensuite votre réponse en l’exécutant.</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">AS</span> nbClients <span class="token keyword">FROM</span> Client<span class="token punctuation">;</span>
+</code></pre>
+<p>On rappelle que <code>AS</code> permet de nommer le résultat de la requête, ici on le nomme <code>nbClients</code>. Essayez d’enlever le <code>AS nbClients</code> et observez le résultat de la requête.</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q23</strong> : Écrivez et testez une requête permettant de récupérer le nombre d’emprunts en cours, que l’on notera <code>nbEmprunts</code>.<br>
+<em>Résultat attendu : 11.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q24</strong> : Écrivez et testez une requête permettant de récupérer le nombre de clients ayant le nom “Petit”, que l’on notera <code>nbPetit</code>.<br>
+<em>Résultat attendu : 2.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q25</strong> : Écrivez et testez une requête permettant de récupérer le nombre de titres différents d’albums, que l’on notera <code>nbAlbumsDistincts</code>.<br>
+<em>Résultat attendu : 29.</em></p>
+<blockquote>
+<p>🆘 Vous lirez la page suivante pour savoir comment faire : <a href="https://sql.sh/fonctions/agregation/count">https://sql.sh/fonctions/agregation/count</a></p>
+</blockquote>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<h2 id="recherche-par-motif">Recherche par motif</h2>
+<p>On peut effectuer des requêtes effectuant des recherches de certains motifs.</p>
+<p>Par exemple, on peut chercher tous les clients dont l’adresse email contient le domaine “<a href="http://domaine.net">domaine.net</a>”. La requête s’écrirait :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> Client <span class="token keyword">WHERE</span> email <span class="token operator">LIKE</span> <span class="token string">"%domaine.net%"</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Analyse :</strong></p>
+<ul>
+<li>On a remplacé le <code>=</code> qui fait une recherche exacte par <code>LIKE</code>. Ainsi, <code>email LIKE "%domaine.net%"</code> est évaluée à vrai si et seulement si l’attribut <code>email</code> correspond au motif <code>"%domaine.net%"</code>.</li>
+<li>Dans un motif le symbole <code>%</code> est un joker et peut être substitué par n’importe quelle chaîne de caractères.</li>
+</ul>
+<p><strong>Q26</strong> : Écrivez et testez une requête permettant de récupérer les titres de tous les albums contenant le mot “Love”.<br>
+<em>Résultat attendu : 2 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q27</strong> : Écrivez et testez une requête permettant de récupérer le nombre d’albums dont le titre contient la lettre “a”.<br>
+<em>Résultat attendu : 16 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q28</strong> : Écrivez et testez une requête permettant de récupérer les noms et prénoms de tous les artistes commençant par la lettre “M”.<br>
+<em>Résultat attendu : 3 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<hr>
+<h2 id="exercice-2--bdd-du-disquaire---requêtes-croisées">Exercice 2 : BDD du disquaire - Requêtes croisées</h2>
+<p>On travaillera toujours avec la base de données <code>disquaire.db</code> que vous trouverez dans l’archive de ce chapitre. Vous utiliserez le logiciel DB Browser for SQLite ou le logiciel en ligne <a href="https://sqliteonline.com">sqliteonline.com</a> dans lesquels vous aurez au préalable ouvert la base de données en question.</p>
+<p>L’exercice précédent portait sur des requêtes ne portant à chaque fois que sur une seule table. C’est malheureusement insuffisant pour chercher certaines informations qui nécessitent de croiser plusieurs tables.</p>
+<h2 id="introduction">Introduction</h2>
+<p>On présente dans cette introduction la notion de jointure qui permet de croiser plusieurs tables. Prenez le temps de lire attentivement cette partie, de tester les requêtes proposées, de les modifier, etc. pour bien comprendre cette notion fondamentale des bases de données relationnelles.</p>
+<p>Imaginons que l’on veuille connaître les clients ayant des emprunts en cours. Ces derniers sont ceux présents dans la table <code>Emprunt</code> et on peut les obtenir avec la requête</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> Emprunt<span class="token punctuation">;</span>
+</code></pre>
+<p>qui produit la réponse suivante :</p>
+
+<table>
+<thead>
+<tr>
+<th>id_client</th>
+<th>id_album</th>
+<th>jour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>2021-09-10</td>
+</tr>
+<tr>
+<td>3</td>
+<td>8</td>
+<td>2021-08-18</td>
+</tr>
+<tr>
+<td>3</td>
+<td>24</td>
+<td>2021-08-18</td>
+</tr>
+<tr>
+<td>5</td>
+<td>25</td>
+<td>2021-09-12</td>
+</tr>
+<tr>
+<td>5</td>
+<td>6</td>
+<td>2021-10-10</td>
+</tr>
+<tr>
+<td>9</td>
+<td>20</td>
+<td>2021-09-28</td>
+</tr>
+<tr>
+<td>11</td>
+<td>14</td>
+<td>2021-10-08</td>
+</tr>
+<tr>
+<td>7</td>
+<td>15</td>
+<td>2021-10-08</td>
+</tr>
+<tr>
+<td>7</td>
+<td>19</td>
+<td>2021-10-08</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>2021-10-15</td>
+</tr>
+<tr>
+<td>16</td>
+<td>29</td>
+<td>2021-10-01</td>
+</tr>
+</tbody>
+</table><p>Mais ce n’est pas très satisfaisant car on aimerait plutôt afficher les noms, prénoms et adresse email de ces clients plutôt que <code>id_client</code>.</p>
+<p>Le problème est que les noms, prénoms, adresses email sont uniquement présents dans la table <code>Client</code>. Il est nécessaire de faire une jointure entre les deux tables <code>Emprunt</code> et <code>Client</code>.</p>
+<h2 id="première-jointure">Première jointure</h2>
+<p>Une jointure consiste à créer toutes les combinaisons de lignes des deux tables ayant un attribut de même valeur (l’attribut <code>id_client</code> dans notre exemple). Pour effectuer une jointure, on utilise <code>JOIN</code> !</p>
+<p>Ainsi, la requête</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span>
+<span class="token keyword">FROM</span> Emprunt
+<span class="token keyword">JOIN</span> Client <span class="token keyword">ON</span> Emprunt<span class="token punctuation">.</span>id_client <span class="token operator">=</span> Client<span class="token punctuation">.</span>id_client<span class="token punctuation">;</span>
+</code></pre>
+<p>crée la jointure des deux tables <code>Emprunt</code> et <code>Client</code>, représentée ci-dessous.</p>
+
+<table>
+<thead>
+<tr>
+<th>id_client</th>
+<th>id_album</th>
+<th>jour</th>
+<th>id_client_1</th>
+<th>nom</th>
+<th>prenom</th>
+<th>email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>2021-09-10</td>
+<td>1</td>
+<td>Dupont</td>
+<td>Florine</td>
+<td><a href="mailto:dupont.florine@domaine.net">dupont.florine@domaine.net</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>8</td>
+<td>2021-08-18</td>
+<td>3</td>
+<td>Marchand</td>
+<td>Grégoire</td>
+<td><a href="mailto:greg.marchand49@music.com">greg.marchand49@music.com</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>24</td>
+<td>2021-08-18</td>
+<td>3</td>
+<td>Marchand</td>
+<td>Grégoire</td>
+<td><a href="mailto:greg.marchand49@music.com">greg.marchand49@music.com</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>25</td>
+<td>2021-09-12</td>
+<td>5</td>
+<td>Pacot</td>
+<td>Jean</td>
+<td><a href="mailto:jpacot@music.com">jpacot@music.com</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>6</td>
+<td>2021-10-10</td>
+<td>5</td>
+<td>Pacot</td>
+<td>Jean</td>
+<td><a href="mailto:jpacot@music.com">jpacot@music.com</a></td>
+</tr>
+<tr>
+<td>9</td>
+<td>20</td>
+<td>2021-09-28</td>
+<td>9</td>
+<td>Dubois</td>
+<td>Philippe</td>
+<td><a href="mailto:pdubois5@chezmoi.net">pdubois5@chezmoi.net</a></td>
+</tr>
+<tr>
+<td>11</td>
+<td>14</td>
+<td>2021-10-08</td>
+<td>11</td>
+<td>Fournier</td>
+<td>Marie</td>
+<td><a href="mailto:mfournier@abc.de">mfournier@abc.de</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>15</td>
+<td>2021-10-08</td>
+<td>7</td>
+<td>Moreau</td>
+<td>Alain</td>
+<td><a href="mailto:amoreau1@abc.de">amoreau1@abc.de</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>19</td>
+<td>2021-10-08</td>
+<td>7</td>
+<td>Moreau</td>
+<td>Alain</td>
+<td><a href="mailto:amoreau1@abc.de">amoreau1@abc.de</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>2021-10-15</td>
+<td>7</td>
+<td>Moreau</td>
+<td>Alain</td>
+<td><a href="mailto:amoreau1@abc.de">amoreau1@abc.de</a></td>
+</tr>
+<tr>
+<td>16</td>
+<td>29</td>
+<td>2021-10-01</td>
+<td>16</td>
+<td>Bernardin</td>
+<td>Stéphanie</td>
+<td><a href="mailto:sbernard1@chezmoi.net">sbernard1@chezmoi.net</a></td>
+</tr>
+</tbody>
+</table><p><strong>Analyse :</strong></p>
+<ul>
+<li>La jointure (<code>SELECT * FROM Emprunt JOIN Client</code>) a permis de recopier toutes les colonnes des deux tables.</li>
+<li>Le choix des lignes à conserver, appelée <strong>condition de jointure</strong>, suit le mot clé <code>ON</code>. Cela permet de fusionner uniquement les lignes vérifiant la condition <code>Emprunt.id_client = Client.id_client</code>, autrement dit les lignes pour lesquelles l’attribut <code>id_client</code> est identique donc celles concernant un même client.</li>
+<li>Essayez d’enlever le <code>ON ...</code>, vous constaterez que toutes les lignes sont fusionnées, ce qui est absurde car une même ligne peut alors correspondre à deux clients distincts.</li>
+</ul>
+<p>Vous avez constaté que l’on a préfixé chaque attribut par le nom de la table auquel il appartient. Cela permet de faire la différence entre deux attributs portant le même nom dans deux tables différentes, et c’est une bonne pratique de toujours le faire même lorsqu’il n’y a pas d’ambiguïté.<br>
+Ce sont les clés étrangères qui permettent de faire le lien entre les tables, il est donc normal que la condition de jointure fasse intervenir <code>id_client</code> (puisque c’est une clé étrangère de la table <code>Emprunt</code> qui la lie à la table <code>Client</code>).</p>
+<p>On peut combiner une jointure avec la clause <code>SELECT</code> pour n’afficher que ce qui nous intéresse. Par exemple, si on ne veut que les noms, prénoms et adresses email des clients ayant des emprunts en cours ainsi que les albums empruntés et le jour d’emprunt, on peut faire la requête</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> Emprunt<span class="token punctuation">.</span>id_album<span class="token punctuation">,</span> Emprunt<span class="token punctuation">.</span>jour<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>nom<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>prenom<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>email
+<span class="token keyword">FROM</span> Emprunt
+<span class="token keyword">JOIN</span> Client <span class="token keyword">ON</span> Emprunt<span class="token punctuation">.</span>id_client <span class="token operator">=</span> Client<span class="token punctuation">.</span>id_client<span class="token punctuation">;</span>
+</code></pre>
+<p>qui produit le résultat</p>
+
+<table>
+<thead>
+<tr>
+<th>id_album</th>
+<th>jour</th>
+<th>nom</th>
+<th>prenom</th>
+<th>email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>2021-09-10</td>
+<td>Dupont</td>
+<td>Florine</td>
+<td><a href="mailto:dupont.florine@domaine.net">dupont.florine@domaine.net</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td>2021-08-18</td>
+<td>Marchand</td>
+<td>Grégoire</td>
+<td><a href="mailto:greg.marchand49@music.com">greg.marchand49@music.com</a></td>
+</tr>
+<tr>
+<td>24</td>
+<td>2021-08-18</td>
+<td>Marchand</td>
+<td>Grégoire</td>
+<td><a href="mailto:greg.marchand49@music.com">greg.marchand49@music.com</a></td>
+</tr>
+<tr>
+<td>25</td>
+<td>2021-09-12</td>
+<td>Pacot</td>
+<td>Jean</td>
+<td><a href="mailto:jpacot@music.com">jpacot@music.com</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>2021-10-10</td>
+<td>Pacot</td>
+<td>Jean</td>
+<td><a href="mailto:jpacot@music.com">jpacot@music.com</a></td>
+</tr>
+<tr>
+<td>20</td>
+<td>2021-09-28</td>
+<td>Dubois</td>
+<td>Philippe</td>
+<td><a href="mailto:pdubois5@chezmoi.net">pdubois5@chezmoi.net</a></td>
+</tr>
+<tr>
+<td>14</td>
+<td>2021-10-08</td>
+<td>Fournier</td>
+<td>Marie</td>
+<td><a href="mailto:mfournier@abc.de">mfournier@abc.de</a></td>
+</tr>
+<tr>
+<td>15</td>
+<td>2021-10-08</td>
+<td>Moreau</td>
+<td>Alain</td>
+<td><a href="mailto:amoreau1@abc.de">amoreau1@abc.de</a></td>
+</tr>
+<tr>
+<td>19</td>
+<td>2021-10-08</td>
+<td>Moreau</td>
+<td>Alain</td>
+<td><a href="mailto:amoreau1@abc.de">amoreau1@abc.de</a></td>
+</tr>
+<tr>
+<td>16</td>
+<td>2021-10-15</td>
+<td>Moreau</td>
+<td>Alain</td>
+<td><a href="mailto:amoreau1@abc.de">amoreau1@abc.de</a></td>
+</tr>
+<tr>
+<td>29</td>
+<td>2021-10-01</td>
+<td>Bernardin</td>
+<td>Stéphanie</td>
+<td><a href="mailto:sbernard1@chezmoi.net">sbernard1@chezmoi.net</a></td>
+</tr>
+</tbody>
+</table><h2 id="combiner-les-jointures">Combiner les jointures</h2>
+<p>Plutôt que d’afficher l’<code>id_album</code>, qui est peu lisible, on peut préférer afficher le titre de l’album. Pour cela, on peut faire une nouvelle jointure :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> Album<span class="token punctuation">.</span>titre<span class="token punctuation">,</span> Emprunt<span class="token punctuation">.</span>jour<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>nom<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>prenom<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>email
+<span class="token keyword">FROM</span> Emprunt
+<span class="token keyword">JOIN</span> Client <span class="token keyword">ON</span> Emprunt<span class="token punctuation">.</span>id_client <span class="token operator">=</span> Client<span class="token punctuation">.</span>id_client
+<span class="token keyword">JOIN</span> Album <span class="token keyword">ON</span> Emprunt<span class="token punctuation">.</span>id_album <span class="token operator">=</span> Album<span class="token punctuation">.</span>id_album<span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Analyse :</strong> On a ajouté la dernière ligne qui permet de faire une jointure sur l’attribut <code>id_album</code> entre la table produite par la requête précédente et la table <code>Album</code>. Et on a remplacé la première colonne <code>Emprunt.id_album</code> par <code>Album.titre</code> pour faire apparaître les titres des albums comme souhaité :</p>
+
+<table>
+<thead>
+<tr>
+<th>titre</th>
+<th>jour</th>
+<th>nom</th>
+<th>prenom</th>
+<th>email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Axis : Bold As Love</td>
+<td>2021-09-10</td>
+<td>Dupont</td>
+<td>Florine</td>
+<td><a href="mailto:dupont.florine@domaine.net">dupont.florine@domaine.net</a></td>
+</tr>
+<tr>
+<td>Riding With The King</td>
+<td>2021-08-18</td>
+<td>Marchand</td>
+<td>Grégoire</td>
+<td><a href="mailto:greg.marchand49@music.com">greg.marchand49@music.com</a></td>
+</tr>
+<tr>
+<td>Continuum</td>
+<td>2021-08-18</td>
+<td>Marchand</td>
+<td>Grégoire</td>
+<td><a href="mailto:greg.marchand49@music.com">greg.marchand49@music.com</a></td>
+</tr>
+<tr>
+<td>Continuum</td>
+<td>2021-09-12</td>
+<td>Pacot</td>
+<td>Jean</td>
+<td><a href="mailto:jpacot@music.com">jpacot@music.com</a></td>
+</tr>
+<tr>
+<td>Thriller</td>
+<td>2021-10-10</td>
+<td>Pacot</td>
+<td>Jean</td>
+<td><a href="mailto:jpacot@music.com">jpacot@music.com</a></td>
+</tr>
+<tr>
+<td>Power Up</td>
+<td>2021-09-28</td>
+<td>Dubois</td>
+<td>Philippe</td>
+<td><a href="mailto:pdubois5@chezmoi.net">pdubois5@chezmoi.net</a></td>
+</tr>
+<tr>
+<td>Let It Be</td>
+<td>2021-10-08</td>
+<td>Fournier</td>
+<td>Marie</td>
+<td><a href="mailto:mfournier@abc.de">mfournier@abc.de</a></td>
+</tr>
+<tr>
+<td>44/876</td>
+<td>2021-10-08</td>
+<td>Moreau</td>
+<td>Alain</td>
+<td><a href="mailto:amoreau1@abc.de">amoreau1@abc.de</a></td>
+</tr>
+<tr>
+<td>Songs in the Key of Life</td>
+<td>2021-10-08</td>
+<td>Moreau</td>
+<td>Alain</td>
+<td><a href="mailto:amoreau1@abc.de">amoreau1@abc.de</a></td>
+</tr>
+<tr>
+<td>Lady Soul</td>
+<td>2021-10-15</td>
+<td>Moreau</td>
+<td>Alain</td>
+<td><a href="mailto:amoreau1@abc.de">amoreau1@abc.de</a></td>
+</tr>
+<tr>
+<td>Leave the Light On</td>
+<td>2021-10-01</td>
+<td>Bernardin</td>
+<td>Stéphanie</td>
+<td><a href="mailto:sbernard1@chezmoi.net">sbernard1@chezmoi.net</a></td>
+</tr>
+</tbody>
+</table><p>On peut combiner tout ce qui a été vu précédemment (dans l’exercice 1 par exemple) avec les jointures, on peut par exemple ajouter des conditions. La requête</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> Album<span class="token punctuation">.</span>titre<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>nom<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>prenom<span class="token punctuation">,</span> Client<span class="token punctuation">.</span>email
+<span class="token keyword">FROM</span> Emprunt
+<span class="token keyword">JOIN</span> Client <span class="token keyword">ON</span> Emprunt<span class="token punctuation">.</span>id_client <span class="token operator">=</span> Client<span class="token punctuation">.</span>id_client
+<span class="token keyword">JOIN</span> Album <span class="token keyword">ON</span> Emprunt<span class="token punctuation">.</span>id_album <span class="token operator">=</span> Album<span class="token punctuation">.</span>id_album
+<span class="token keyword">WHERE</span> Client<span class="token punctuation">.</span>nom <span class="token operator">=</span> <span class="token string">"Moreau"</span><span class="token punctuation">;</span>
+</code></pre>
+<p>produit le résultat</p>
+
+<table>
+<thead>
+<tr>
+<th>titre</th>
+<th>nom</th>
+<th>prenom</th>
+<th>email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>44/876</td>
+<td>Moreau</td>
+<td>Alain</td>
+<td><a href="mailto:amoreau1@abc.de">amoreau1@abc.de</a></td>
+</tr>
+<tr>
+<td>Lady Soul</td>
+<td>Moreau</td>
+<td>Alain</td>
+<td><a href="mailto:amoreau1@abc.de">amoreau1@abc.de</a></td>
+</tr>
+<tr>
+<td>Songs in the Key of Life</td>
+<td>Moreau</td>
+<td>Alain</td>
+<td><a href="mailto:amoreau1@abc.de">amoreau1@abc.de</a></td>
+</tr>
+</tbody>
+</table><h2 id="utiliser-des-alias">Utiliser des alias</h2>
+<p>Certaines requêtes peuvent commencer à être assez longues à écrire. Pour réduire leur longueur on peut utiliser des alias pour les noms de table grâce au mot clé <code>AS</code>.</p>
+<p>Ainsi, la requête précédente peut aussi s’écrire</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token number">a</span><span class="token punctuation">.</span>titre<span class="token punctuation">,</span> <span class="token number">c</span><span class="token punctuation">.</span>nom<span class="token punctuation">,</span> <span class="token number">c</span><span class="token punctuation">.</span>prenom<span class="token punctuation">,</span> <span class="token number">c</span><span class="token punctuation">.</span>email
+<span class="token keyword">FROM</span> Emprunt <span class="token keyword">AS</span> <span class="token number">e</span>
+<span class="token keyword">JOIN</span> Client <span class="token keyword">AS</span> <span class="token number">c</span> <span class="token keyword">ON</span> <span class="token number">e</span><span class="token punctuation">.</span>id_client <span class="token operator">=</span> <span class="token number">c</span><span class="token punctuation">.</span>id_client
+<span class="token keyword">JOIN</span> Album <span class="token keyword">AS</span> <span class="token number">a</span> <span class="token keyword">ON</span> <span class="token number">e</span><span class="token punctuation">.</span>id_album <span class="token operator">=</span> <span class="token number">a</span><span class="token punctuation">.</span>id_album
+<span class="token keyword">WHERE</span> <span class="token number">c</span><span class="token punctuation">.</span>nom <span class="token operator">=</span> <span class="token string">"Moreau"</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Analyse :</strong> <code>Emprunt AS e</code> permet de renommer la table <code>Emprunt</code> par <code>e</code>, ce qui permet de raccourcir les écritures du type <code>Emprunt.id_client</code> en <code>e.id_client</code>. Idem pour <code>c</code> et <code>a</code> qui sont les alias respectifs des tables <code>Client</code> et <code>Album</code>.</p>
+<h2 id="à-vous-de-jouer-">À vous de jouer !</h2>
+<p><strong>Q1</strong> : Écrivez et testez une requête permettant de récupérer l’adresse email de chaque client ayant un emprunt en cours.<br>
+<em>Résultat attendu : 11 enregistrements (comme un peu plus haut).</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q2</strong> : Écrivez et testez une requête permettant de récupérer les noms, prénoms et adresses email des clients ayant un emprunt en cours et dont la date d’emprunt est postérieure au 2 octobre 2021.<br>
+<em>Résultat attendu : 5 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q3</strong> : En réalité, l’attribut <code>dispo</code> (de la table <code>Album</code>) n’est pas utile car on peut retrouver tous les albums empruntés avec une jointure. En supposant que l’attribut <code>dispo</code> n’existe pas, écrivez et testez une requête permettant de récupérer le titre de tous les albums empruntés.<br>
+<em>Résultat attendu : 11 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q4</strong> : Toujours sans utiliser l’attribut <code>dispo</code>, écrivez et testez une requête permettant de récupérer le titre de tous les albums empruntés par le client dont l’attribut <code>id_client</code> vaut 7.<br>
+<em>Résultat attendu : 3 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q5</strong> : Toujours sans utiliser l’attribut <code>dispo</code>, écrivez et testez une requête permettant de récupérer le nom, le prénom et le titre de tous les albums empruntés par le client dont l’attribut <code>id_client</code> vaut 7.<br>
+<em>Résultat attendu : 3 enregistrements (comme à la question précédente, le client en question est Alain Moreau).</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q6</strong> : Écrivez et testez une requête permettant de récupérer les titres ainsi que les noms et prénoms des artistes de chaque album.<br>
+<em>Résultat attendu : 34 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q7</strong> : Écrivez et testez une requête permettant de récupérer les titres et l’année de sortie de tous les albums de Michael Jackson.<br>
+<em>Résultat attendu : 3 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q8</strong> : Écrivez et testez une requête permettant de récupérer les titres et l’année de sortie de tous les albums de Sting, rangés par ordre croissant d’année de sortie.<br>
+<em>Résultat attendu : 3 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q9</strong> : Écrivez et testez une requête permettant de récupérer les noms et prénoms des artistes de l’album intitulé “Don’t Explain”.<br>
+<em>Résultat attendu : 2 enregistrements.</em></p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<hr>
+<h2 id="exercice-3---modifier-une-table">Exercice 3 - Modifier une table</h2>
+<p>Les données stockées dans une base de données n’ont pas vocation à être figées, elles peuvent être modifiées au cours du temps grâce à des requêtes de mise à jour de la base de données.</p>
+<p>Nous allons voir les requêtes permettant d’ajouter des données à une table, de modifier les données d’une table et de supprimer les données d’une table.</p>
+<p>Avant cela, faisons une petite digression sur la création de tables dans une base de données.</p>
+<h2 id="création-dune-table-avec-create-table">Création d’une table avec CREATE TABLE</h2>
+<p>La création d’une base de données n’est pas au programme de Terminale NSI. Néanmoins, connaître les requêtes permettant de créer une table permet de mieux appréhender les requêtes de mise à jour que l’on verra ensuite.</p>
+<p>Créer une base de données consiste à créer les tables de la base. Pour créer une table, on utilise <code>CREATE TABLE</code>.</p>
+<h3 id="exemple">Exemple</h3>
+<p>Pour créer la table <code>Artiste</code> correspondant à la relation suivante :</p>
+<p><code>Artiste(</code><strong><code>id_artiste</code></strong> <code>INT, nom TEXT, prenom TEXT)</code></p>
+<p>on peut exécuter cette commande SQL :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> Artiste <span class="token punctuation">(</span>
+    id_artiste <span class="token keyword">INTEGER</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+    nom <span class="token keyword">TEXT</span><span class="token punctuation">,</span>
+    prenom <span class="token keyword">TEXT</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Remarque :</strong> On a bien précisé le nom et le type de chaque attribut, et indiqué avec <code>PRIMARY KEY</code> quelle était notre clé primaire.</p>
+<h3 id="à-vous-de-jouer--1">À vous de jouer !</h3>
+<p><strong>Q1</strong> : Ouvrez DB Browser for SQLite ou <a href="http://sqliteonline.com">sqliteonline.com</a> :</p>
+<ul>
+<li>si vous utilisez DB Browser for SQLite, cliquez sur “Nouvelle Base de Données” puis appelez-la <code>bac.db</code> et validez. Fermez ensuite la fenêtre de l’assistant de création de table. Vous êtes désormais prêt pour la suite !</li>
+<li>si vous utilisez <a href="http://sqliteonline.com">sqliteonline.com</a>, remplacez la requête dans la fenêtre SQL par <code>DROP TABLE demo;</code> pour effacer la table demo présente au départ. Vous êtes désormais prêt pour la suite !</li>
+</ul>
+<p><strong>Q2</strong> : Écrivez la requête permettant de créer une table <code>Note</code> correspondant à la relation suivante. Vous vérifierez ensuite dans la structure de la base de données que la table a bien été créée avec les bons attributs et les bons types.</p>
+<blockquote>
+<p><code>Note(</code><strong><code>id_eleve</code></strong> <code>INT, nom TEXT, prenom TEXT, maths INT, anglais INT, info INT)</code></p>
+</blockquote>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<h2 id="insertion-de-valeurs-dans-la-table-avec-insert-into-...-values">Insertion de valeurs dans la table avec INSERT INTO … VALUES</h2>
+<p>Pour insérer des enregistrements (= des lignes) dans une table, on utilise la commande <code>INSERT INTO ... VALUES</code>.</p>
+<h3 id="exemple-1">Exemple</h3>
+<p>Pour insérer les 3 enregistrements suivants dans la table <code>Artiste</code> :</p>
+
+<table>
+<thead>
+<tr>
+<th>id_artiste</th>
+<th>nom</th>
+<th>prenom</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Clapton</td>
+<td>Éric</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Mayall</td>
+<td>John</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Hendrix</td>
+<td>Jimi</td>
+</tr>
+</tbody>
+</table><p>on écrit la requête</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> Artiste <span class="token keyword">VALUES</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'Clapton'</span><span class="token punctuation">,</span> <span class="token string">'Éric'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'Mayall'</span><span class="token punctuation">,</span> <span class="token string">'John'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">'Hendrix'</span><span class="token punctuation">,</span> <span class="token string">'Jimi'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Analyse :</strong></p>
+<ul>
+<li>Après <code>INSERT INTO</code> (que l’on traduit par “insérer dans”) on indique le nom de la table dans laquelle on veut insérer des données ;</li>
+<li>Puis on indique grâce au mot clé <code>VALUES</code> les enregistrements que l’on veut insérer, ces derniers étant séparés par des virgules s’il y en a plusieurs (on n’oublie pas le <code>;</code> pour terminer) ;</li>
+<li>Avec cette requête, les valeurs des différents enregistrements (ou <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathnormal">n</span></span></span></span></span>-uplets) doivent être données dans le même ordre que lors du <code>CREATE TABLE</code>. Néanmoins, il est possible de les passer dans un ordre différent comme on l’explique juste en-dessous.</li>
+</ul>
+<p>Si on désire passer les valeurs des enregistrements dans un ordre différent de celui de la création de la table, il suffit de préciser l’ordre juste après le nom de la table :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> Artiste <span class="token punctuation">(</span>prenom<span class="token punctuation">,</span> nom<span class="token punctuation">,</span> id_artiste<span class="token punctuation">)</span> <span class="token keyword">VALUES</span> <span class="token punctuation">(</span><span class="token string">'John'</span><span class="token punctuation">,</span> <span class="token string">'Mayer'</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Pour voir le code SQL qui a permis de créer la base de données du disquaire, vous pouvez suivre ce lien. Regardez notamment comment on a lié les tables avec les clés étrangères en utilisant <code>REFERENCES</code> et comment on définit la réunion de plusieurs attributs comme clé primaire. Vous constaterez également que l’on n’a pas utilisé le type <code>TEXT</code> pour le domaine des attributs de type “texte”. Enfin, vous trouverez dans ce fichier <code>.sql</code> les ordres d’insertions des différents enregistrements de chaque table.</p>
+<h3 id="à-vous-de-jouer--2">À vous de jouer !</h3>
+<p><strong>Q3</strong> : Écrivez la requête permettant d’insérer les trois enregistrements suivants dans la table <code>Note</code> :</p>
+
+<table>
+<thead>
+<tr>
+<th>id_eleve</th>
+<th>nom</th>
+<th>prenom</th>
+<th>maths</th>
+<th>anglais</th>
+<th>info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Marchand</td>
+<td>Alice</td>
+<td>14</td>
+<td>13</td>
+<td>11</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Muller</td>
+<td>Marie</td>
+<td>10</td>
+<td>18</td>
+<td>17</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Prenel</td>
+<td>Laura</td>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+</tr>
+</tbody>
+</table><p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q4</strong> : Écrivez et testez une requête permettant d’afficher tous les enregistrements de la table <code>Note</code> afin de vérifier que les données ont bien été ajoutées.</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q5</strong> : Écrivez et testez la requête permettant d’ajouter l’enregistrement (3, ‘Dupont’, ‘Arthur’, 18, 14, 13) à la table <code>Note</code>. Quelle est l’erreur provoquée ? Expliquez-la (voir Chapitre 1 si nécessaire).</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q6</strong> : Écrivez et testez une requête permettant d’ajouter l’enregistrement concernant Arthur mais avec la clé primaire <code>id_eleve</code> égale à 4. Vous vérifierez que l’enregistrement a bien été ajouté !</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p>À ce stade, vous devriez obtenir la table <code>Note</code> suivante :</p>
+
+<table>
+<thead>
+<tr>
+<th>id_eleve</th>
+<th>nom</th>
+<th>prenom</th>
+<th>maths</th>
+<th>anglais</th>
+<th>info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Marchand</td>
+<td>Alice</td>
+<td>14</td>
+<td>13</td>
+<td>11</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Muller</td>
+<td>Marie</td>
+<td>10</td>
+<td>18</td>
+<td>17</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Prenel</td>
+<td>Laura</td>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Dupont</td>
+<td>Arthur</td>
+<td>18</td>
+<td>14</td>
+<td>13</td>
+</tr>
+</tbody>
+</table><h2 id="modification-de-valeurs-avec-update-...-set">Modification de valeurs avec UPDATE … SET</h2>
+<p>Il est possible de modifier des valeurs existantes dans une table, avec <code>UPDATE</code>.</p>
+<h3 id="exemple-2">Exemple</h3>
+<p>Dans la table <code>Client</code>, le client</p>
+
+<table>
+<thead>
+<tr>
+<th>id_client</th>
+<th>nom</th>
+<th>prenom</th>
+<th>email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4</td>
+<td>Michel</td>
+<td>Valérie</td>
+<td><a href="mailto:vmichel5@monmail.com">vmichel5@monmail.com</a></td>
+</tr>
+</tbody>
+</table><p>a changé d’adresse email. Pour modifier cette adresse dans la table <code>Client</code>, on peut écrire :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">UPDATE</span> Client <span class="token keyword">SET</span> email <span class="token operator">=</span> <span class="token string">'valerie.michel@email.fr'</span>
+<span class="token keyword">WHERE</span> id_client <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Analyse :</strong></p>
+<ul>
+<li>Après <code>UPDATE</code> on indique le nom de la table dans laquelle on veut modifier une valeur (ici <code>Client</code>) ;</li>
+<li>Ensuite, on écrit <code>SET</code> puis une expression de la forme <code>attribut = valeur</code> qui permet de définir une nouvelle valeur pour l’attribut (ici <code>'valerie.michel@email.fr'</code> est la nouvelle valeur de l’attribut <code>email</code>) ;</li>
+<li>Enfin, on précise avec <code>WHERE</code> la condition permettant de sélectionner les enregistrements sur lesquels la modification doit être apportée (ici une seule ligne car la condition <code>id_client = 4</code> ne correspond qu’à un seul enregistrement).</li>
+</ul>
+<h3 id="à-vous-de-jouer--3">À vous de jouer !</h3>
+<p><strong>Q7</strong> : Il y a eu une erreur dans la saisie de l’élève numéro 3 : son prénom n’est pas Laura mais Laure. Écrivez et testez une requête permettant d’effectuer la correction. Vous vérifierez que la modification a bien été effectuée !</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q8</strong> : Une autre erreur a été détectée : les notes de Mathématiques et d’Anglais de Marchand Alice ont été inversées. Écrivez et testez une requête permettant d’effectuer la correction. Vous vérifierez que la modification a bien été effectuée !</p>
+<blockquote>
+<p>🆘 Vous lirez la page suivante pour savoir comment modifier plusieurs valeurs simultanément avec <code>UPDATE ... SET</code> : <a href="https://sql.sh/cours/update">https://sql.sh/cours/update</a></p>
+</blockquote>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q9</strong> : Pour des raisons d’équité entre établissements, il a été décidé que les notes de mathématiques de tous les élèves devaient augmenter d’un point. Écrivez et testez une requête permettant d’effectuer la modification. Vous vérifierez que la modification a bien été effectuée !</p>
+<blockquote>
+<p>🆘 Pour ajouter un nombre à une valeur, on peut procéder comme en Python pour ajouter un nombre à une variable.</p>
+</blockquote>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p>À ce stade, vous devriez obtenir la table <code>Note</code> suivante :</p>
+
+<table>
+<thead>
+<tr>
+<th>id_eleve</th>
+<th>nom</th>
+<th>prenom</th>
+<th>maths</th>
+<th>anglais</th>
+<th>info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Marchand</td>
+<td>Alice</td>
+<td>14</td>
+<td>14</td>
+<td>11</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Muller</td>
+<td>Marie</td>
+<td>11</td>
+<td>18</td>
+<td>17</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Prenel</td>
+<td>Laure</td>
+<td>14</td>
+<td>14</td>
+<td>15</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Dupont</td>
+<td>Arthur</td>
+<td>19</td>
+<td>14</td>
+<td>13</td>
+</tr>
+</tbody>
+</table><h2 id="suppression-de-valeurs">Suppression de valeurs</h2>
+<p>Il est possible de supprimer une ligne d’une table en utilisant <code>DELETE</code>.</p>
+<h3 id="exemple-3">Exemple</h3>
+<p>Le client Marchand Grégoire a rendu l’album Continuum (dont l’attribut <code>id_album</code> vaut 25) qu’il avait emprunté. Il faut supprimer la ligne correspondante dans la table <code>Emprunt</code> :</p>
+
+<table>
+<thead>
+<tr>
+<th>id_client</th>
+<th>id_album</th>
+<th>jour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>2021-09-10</td>
+</tr>
+<tr>
+<td>3</td>
+<td>8</td>
+<td>2021-08-18</td>
+</tr>
+<tr>
+<td>3</td>
+<td>24</td>
+<td>2021-08-18</td>
+</tr>
+<tr>
+<td>5</td>
+<td>25</td>
+<td>2021-09-12</td>
+</tr>
+<tr>
+<td>5</td>
+<td>6</td>
+<td>2021-10-10</td>
+</tr>
+<tr>
+<td>9</td>
+<td>20</td>
+<td>2021-09-28</td>
+</tr>
+<tr>
+<td>11</td>
+<td>14</td>
+<td>2021-10-08</td>
+</tr>
+<tr>
+<td>7</td>
+<td>15</td>
+<td>2021-10-08</td>
+</tr>
+<tr>
+<td>7</td>
+<td>19</td>
+<td>2021-10-08</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>2021-10-15</td>
+</tr>
+<tr>
+<td>16</td>
+<td>29</td>
+<td>2021-10-01</td>
+</tr>
+</tbody>
+</table><p>Pour cela, on peut écrire l’ordre suivant :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">DELETE</span> <span class="token keyword">FROM</span> Emprunt
+<span class="token keyword">WHERE</span> id_album <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Analyse :</strong></p>
+<ul>
+<li>Après <code>DELETE</code> on indique dans quelle table on veut supprimer une ligne avec <code>FROM [nom_table]</code> ;</li>
+<li>Ensuite on précise avec <code>WHERE</code> la condition permettant de sélectionner les enregistrements à supprimer (ici une seule ligne est supprimée car la condition <code>id_album = 25</code> ne correspond qu’à un seul enregistrement).</li>
+</ul>
+<p>On peut vérifier que la ligne correspondante a bien été supprimée de la table <code>Emprunt</code> :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> Emprunt<span class="token punctuation">;</span>
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>id_client</th>
+<th>id_album</th>
+<th>jour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>2021-09-10</td>
+</tr>
+<tr>
+<td>3</td>
+<td>8</td>
+<td>2021-08-18</td>
+</tr>
+<tr>
+<td>3</td>
+<td>24</td>
+<td>2021-08-18</td>
+</tr>
+<tr>
+<td>5</td>
+<td>6</td>
+<td>2021-10-10</td>
+</tr>
+<tr>
+<td>9</td>
+<td>20</td>
+<td>2021-09-28</td>
+</tr>
+<tr>
+<td>11</td>
+<td>14</td>
+<td>2021-10-08</td>
+</tr>
+<tr>
+<td>7</td>
+<td>15</td>
+<td>2021-10-08</td>
+</tr>
+<tr>
+<td>7</td>
+<td>19</td>
+<td>2021-10-08</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>2021-10-15</td>
+</tr>
+<tr>
+<td>16</td>
+<td>29</td>
+<td>2021-10-01</td>
+</tr>
+</tbody>
+</table><p><strong>Remarque :</strong> Avec le schéma de la base de données il faut aussi mettre à jour la table <code>Album</code> puisque l’album en question est à nouveau disponible. La requête de mise à jour suivante permet de faire cela :</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">UPDATE</span> Album
+<span class="token keyword">SET</span> dispo <span class="token operator">=</span> <span class="token number">1</span>
+<span class="token keyword">WHERE</span> id_album <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="à-vous-de-jouer--4">À vous de jouer !</h3>
+<p><strong>Q10</strong> : L’élève Muller Marie ne devrait pas faire partie de la table <code>Note</code> car elle ne fait pas partie du même lycée que les autres élèves. Écrivez et testez une requête permettant de supprimer la ligne correspondante. Vous vérifierez que la suppression a bien été effectuée !</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<hr>
+<h2 id="exercice-4---modification-de-la-base-du-disquaire">Exercice 4 - Modification de la base du disquaire</h2>
+<blockquote></blockquote>
+<p>On travaillera à nouveau avec la base de données <code>disquaire.db</code> que vous trouverez dans l’archive de ce chapitre. Vous utiliserez le logiciel DB Browser for SQLite ou le logiciel en ligne <a href="https://sqliteonline.com">sqliteonline.com</a> dans lesquels vous aurez au préalable ouvert la base de données en question.</p>
+<p><strong>Q1</strong> : Le prénom du client “Robert Pascal” a mal été saisi dans la base de données. En effet, son prénom n’est pas Pascal mais Pascale. Écrivez et testez une requête permettant de corriger cette erreur. Vous vérifierez que la correction a bien été effectuée !</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q2</strong> : Un titre d’album a mal été saisi dans la base de données. Il faut remplacer Riding With The King par Riding with the King. Écrivez et testez une requête permettant de corriger cette erreur. Vous vérifierez que la correction a bien été effectuée !</p>
+<p>Réponse : …</p>
+<p><strong>Q3</strong> : Le client “Durand Julien” souhaite que les informations personnelles le concernant soient supprimées de la base de données (c’est son droit avec le RGPD). Écrivez et testez la requête permettant d’effectuer ces suppressions. Vous vérifierez que la suppression a bien été effectuée !</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q4</strong> : Essayez de supprimer le client “Dupont Florine”. Quelle est l’erreur provoquée ? Expliquez-la (voir Chapitre 1 si nécessaire).</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<hr>
+<h2 id="exercice-5">Exercice 5:</h2>
+<p>On veut créer une base de données <code>baseHopital.db</code> qui contiendra les trois tables suivantes (les clés primaires sont en gras) :</p>
+<blockquote>
+<p><img src="https://info-mounier.fr/terminale_nsi/base_de_donnees/data/base_hopital.png" alt="diagramme de la base"></p>
+</blockquote>
+<p>On suppose que les dates sont données sous la forme <code>jj-mm-aaaa</code>.</p>
+<p><strong>Q1</strong> : Donner les commandes SQLite permettant de créer ces tables.</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q2</strong> : On a oublié une colonne pour noter les codes postaux des patients. Donner la commande SQLite permettant cet ajout.</p>
+<blockquote>
+<p>🆘 Vous lirez la page suivante pour savoir comment ajouter une colonne à une table avec <code>ALTER TABLE</code> : <a href="https://sql.sh/cours/alter-table">https://sql.sh/cours/alter-table</a>. Cette commande n’est a priori pas exigible en Terminale NSI !</p>
+</blockquote>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q3</strong> : Mme Anne Wizeunid, née en 2000 et demeurant 3 rue des Pignons Verts 12345 Avonelit doit être enregistrée comme patiente. Donner la commande SQLite correspondante.</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q4</strong> : Le patient numéro 100 a changé de genre et est maintenant une femme. Donner la commande SQLite modifiant en conséquence ses données.</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q5</strong> : Par souci d’économie, la direction décide de se passer des médecins spécialisés en épidémiologie. Donner la commande permettant de supprimer leurs fiches.</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q6</strong> : Donner la requête permettant d’obtenir la liste des prénoms et noms des patientes habitant le Finistère triées dans l’ordre croissant des âges.</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<p><strong>Q7</strong> : Donner la liste des patient(e)s ayant été examiné(e)s par un(e) psychiatre en avril 2020.</p>
+<p>Réponse :</p>
+<pre class=" language-sql"><code class="prism  language-sql">
+</code></pre>
+<hr>
+<h1 id="ii.exercices-sql-débranchés">II.Exercices SQL débranchés</h1>
+<h2 id="exercice-1-">Exercice 1 :</h2>
+<p><em>Exercice 1 sujet [Amérique du Nord J1 2022]</em></p>
+<h2 id="exercice-2">Exercice 2:</h2>
+<p><em>Exercice 4 du sujet [Centres Étrangers J1 2022]</em></p>
+<h2 id="exercice-3">Exercice 3:</h2>
+<p><em>Exercice 3 du [sujet Amérique du Nord J1 2024]</em></p>
+<h2 id="références">Références</h2>
+<ul>
+<li>Exercices sur le langage SQL proposés par Gilles Lassus pour la découverte du site <a href="http://sqlzoo.net">sqlzoo.net</a> (Exercice 3).</li>
+<li>Livre Prepabac NSI, Tle, G. Connan, V. Petrov, G. Rozsavolgyi, L. Signac, éditions HATIER, pour l’idée de l’exercice 4 ainsi que l’exercice 6.</li>
+</ul>
+
+    </div>
+  </div>
+</body>
+
+</html>
