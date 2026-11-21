@@ -6,7 +6,6 @@
 <title>DIU EIL AEFE 2026 - Évaluations :Le langage SQL</title>
  <link rel="stylesheet" href="style.css" />
 <style>
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
@@ -135,7 +134,72 @@
 
   .intro { font-size: 17px; }
 
- 
+  /* ===== Galerie photos ===== */
+  .cartes-photographes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 22px;
+    margin-top: 20px;
+  }
+
+  .carte-photo {
+    background: var(--blanc);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    transition: transform 0.3s;
+  }
+
+  .carte-photo:hover { transform: translateY(-5px); }
+
+  .carte-photo .image {
+    height: 190px;
+    overflow: hidden;
+  }
+
+  .carte-photo .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .carte-photo .info { padding: 15px; }
+  .carte-photo h3 { font-size: 18px; color: var(--mer); margin-bottom: 5px; }
+  .carte-photo p { font-size: 14px; }
+
+  /* ===== Vote ===== */
+  .zone-vote {
+    background: var(--blanc);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    margin-top: 20px;
+    text-align: justify;
+    text-justify: inter-word;;
+  }
+
+  .bouton-vote {
+    display: inline-block;
+    background: var(--terre);
+    color: var(--blanc);
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(201, 82, 63, 0.4);
+  }
+
+  .bouton-vote:hover {
+    background: var(--mer);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(27, 108, 168, 0.4);
+  }
+
+  .consigne-vote { font-size: 17px; margin-bottom: 18px; }
+  .note-vote { font-size: 13px; color: #889; margin-top: 14px; }
 
   /* ===== Pied de page ===== */
   footer {
