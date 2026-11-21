@@ -290,119 +290,442 @@
 
    
   <div class="intro zone-vote">
-    <h1>Fiche de séquence — Interroger et modifier une base de données avec SQL</h1>
+   <h2 id="partie-1-—-approche-générale-du-sujet">Partie 1 — Approche générale du sujet</h2>
 
-<p><strong>Niveau :</strong> Terminale NSI</p>
-<p><strong>Support :</strong> pages <a href="sql.html">Cours SQL</a> et <a href="exercices_sql.html">Exercices SQL</a>, autour de la base de données du disquaire.</p>
+<h3 id="positionnement-du-sujet-dans-le-programme">1.1 Positionnement du sujet dans le programme</h3>
 
-<hr>
+<p>Le thème « bases de données relationnelles » s’inscrit dans les blocs de contenus <strong>« Structures de données »</strong> et <strong>« Langages et programmation »</strong>. Il permet aux élèves de comprendre comment organiser, rechercher, relier et modifier des données à l’aide d’un système de gestion de bases de données.</p>
 
-<h2>1. Présentation de la séquence</h2>
+<blockquote>
+  <p>« Contenus : structure de données : bases de données relationnelles ; schéma de base de données ; langage SQL : sélection, projection, jointure, modification des tables. »</p>
+</blockquote>
 
-<h3>1.1 Place dans le programme</h3>
-<p>Cette séquence permet de passer du modèle relationnel à son utilisation avec un système de gestion de base de données. Les élèves découvrent et pratiquent SQL à partir d’une base de données existante, sans commencer par la conception complète d’une base.</p>
+<p>Dans cette séquence, les notions sont mises en pratique à partir de la base de données du <strong>disquaire</strong>. Les élèves travaillent sur une base existante dont les données sont réparties dans plusieurs tables : <code>Album</code>, <code>Artiste</code>, <code>Artiste_de</code>, <code>Client</code> et <code>Emprunt</code>.</p>
 
-<p>Le fil conducteur est la base du disquaire, composée notamment des tables <code>Album</code>, <code>Artiste</code>, <code>Artiste_de</code>, <code>Client</code> et <code>Emprunt</code>. Les activités s’appuient sur SQLite et sur le logiciel DB Browser for SQLite, ou un outil équivalent.</p>
+<p>Ce thème s’appuie notamment sur les compétences suivantes :</p>
 
-<h3>1.2 Prérequis</h3>
 <ul>
-  <li>Lire un schéma relationnel et repérer tables, attributs et enregistrements ;</li>
-  <li>comprendre le rôle des clés primaires et étrangères ;</li>
-  <li>connaître les types de données simples et les expressions booléennes ;</li>
-  <li>savoir décrire un résultat attendu à partir d’un besoin formulé en langage courant.</li>
+  <li><strong>Sélectionner un traitement :</strong> choisir une table ou plusieurs tables selon l’information recherchée ;</li>
+  <li><strong>Traduire un besoin :</strong> transformer une question exprimée en français en une requête SQL ;</li>
+  <li><strong>Interroger des données :</strong> sélectionner des colonnes, filtrer des lignes, trier des résultats ou les relier entre elles ;</li>
+  <li><strong>Évaluer un traitement :</strong> contrôler le résultat obtenu, comparer les données et corriger une requête incorrecte.</li>
 </ul>
 
-<h3>1.3 Objectifs d’apprentissage</h3>
-<p>À la fin de la séquence, l’élève doit être capable de :</p>
+<p><strong>Prérequis mobilisés :</strong></p>
+
 <ul>
-  <li>expliquer le rôle d’un SGBD et exécuter une requête avec SQLite ;</li>
-  <li>sélectionner des colonnes et des lignes avec <code>SELECT</code> et <code>WHERE</code> ;</li>
-  <li>combiner des conditions, rechercher un motif avec <code>LIKE</code> et trier avec <code>ORDER BY</code> ;</li>
-  <li>limiter les doublons avec <code>DISTINCT</code> et compter des résultats avec <code>COUNT</code> ;</li>
-  <li>relier plusieurs tables avec <code>JOIN ... ON</code> en s’appuyant sur les clés ;</li>
-  <li>lire, écrire et tester des requêtes de modification de données dans les exercices prévus.</li>
+  <li>types construits : tableaux, dictionnaires et enregistrements ;</li>
+  <li>fichiers CSV et traitement tabulaire de données ;</li>
+  <li>conditions booléennes et opérateurs logiques ;</li>
+  <li>lecture d’un schéma relationnel ;</li>
+  <li>notion de clé primaire et de clé étrangère.</li>
 </ul>
 
-<h3>1.4 Notions et commandes travaillées</h3>
+<p><strong>Prolongements possibles :</strong></p>
+
 <ul>
-  <li>Rôle d’un SGBD relationnel et découverte de SQLite ;</li>
-  <li>projection : <code>SELECT</code> ;</li>
-  <li>sélection : <code>WHERE</code>, comparaisons, opérateurs logiques et <code>LIKE</code> ;</li>
-  <li>tri : <code>ORDER BY</code>, <code>ASC</code> et <code>DESC</code> ;</li>
-  <li>résultats distincts : <code>DISTINCT</code> ;</li>
-  <li>comptage : <code>COUNT</code> et alias avec <code>AS</code> ;</li>
-  <li>jointures : <code>JOIN</code>, <code>ON</code> et qualification des attributs par le nom de table ;</li>
-  <li>création et modification de données dans les exercices : <code>CREATE TABLE</code>, <code>INSERT</code>, <code>UPDATE</code> et <code>DELETE</code>.</li>
+  <li>études d’informatique et d’administration de données ;</li>
+  <li>modélisation de nouvelles bases de données ;</li>
+  <li>gestion des données personnelles et respect du RGPD ;</li>
+  <li>approche critique de l’utilisation des bases de données.</li>
 </ul>
 
-<h3>1.5 Progression proposée</h3>
+<h3 id="notions-à-faire-passer">1.2 Notions à faire passer</h3>
+
+<ol>
+  <li>
+    <strong>Modèle relationnel :</strong>
+    relation ou table, attribut, domaine, enregistrement, clé primaire, clé étrangère et schéma relationnel.
+  </li>
+  <li>
+    <strong>Contraintes d’intégrité :</strong>
+    unicité de la clé primaire et cohérence des références vers les autres tables.
+  </li>
+  <li>
+    <strong>SGBD et SQLite :</strong>
+    rôle d’un système de gestion de bases de données et intérêt d’une base relationnelle.
+  </li>
+  <li>
+    <strong>Requêtes d’interrogation :</strong>
+    <ul>
+      <li><code>SELECT</code> pour choisir les colonnes ;</li>
+      <li><code>WHERE</code> pour sélectionner les lignes ;</li>
+      <li><code>LIKE</code> pour effectuer une recherche par motif ;</li>
+      <li><code>ORDER BY</code> pour trier les résultats ;</li>
+      <li><code>DISTINCT</code> pour supprimer les doublons ;</li>
+      <li><code>COUNT</code> pour compter les enregistrements.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Jointures :</strong>
+    utilisation de <code>JOIN ... ON ...</code> pour relier des tables grâce aux clés.
+  </li>
+  <li>
+    <strong>Modification des données :</strong>
+    prise en compte de <code>INSERT INTO</code>, <code>UPDATE</code>, <code>DELETE FROM</code> et des contraintes liées aux clés étrangères.
+  </li>
+  <li>
+    <strong>Création d’une table :</strong>
+    découverte de <code>CREATE TABLE</code>, des types d’attributs et de la clause <code>PRIMARY KEY</code>.
+  </li>
+</ol>
+
+<h3 id="progression-envisagée">1.3 Progression envisagée</h3>
+
 <table class="styled-table">
   <thead>
     <tr>
+      <th>#</th>
       <th>Séance</th>
-      <th>Activités et notions</th>
-      <th>Support principal</th>
+      <th>Contenus</th>
       <th>Durée indicative</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>1</td>
-      <td>Découvrir SQLite et le schéma du disquaire. Lire et interpréter des requêtes simples avec <code>SELECT</code>.</td>
-      <td>Cours SQL et exercice 1</td>
+      <td>S1</td>
+      <td>Découverte du modèle relationnel et du schéma de la base du disquaire.</td>
       <td>1 h à 2 h</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>Écrire des requêtes sur une table : projection, conditions <code>WHERE</code>, <code>LIKE</code>, tris, <code>DISTINCT</code> et <code>COUNT</code>.</td>
-      <td>Exercice 1</td>
-      <td>2 h</td>
+      <td>S2</td>
+      <td>Premières requêtes avec <code>SELECT</code> : projection et sélection de toutes les données d’une table.</td>
+      <td>1 h à 2 h</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>Comprendre le besoin de croiser les données et construire des requêtes avec une ou plusieurs jointures.</td>
-      <td>Cours SQL et exercice 2</td>
+      <td>S3</td>
+      <td>Filtrage avec <code>WHERE</code>, opérateurs logiques, recherche avec <code>LIKE</code> et tris avec <code>ORDER BY</code>.</td>
       <td>2 h</td>
     </tr>
     <tr>
       <td>4</td>
-      <td>Découvrir les commandes de création et de modification des données, puis s’entraîner à les utiliser avec prudence.</td>
-      <td>Exercice 3 et exercices suivants</td>
+      <td>S4</td>
+      <td>Utilisation de <code>DISTINCT</code>, comptage avec <code>COUNT</code> et découverte des fonctions d’agrégation.</td>
       <td>1 h à 2 h</td>
     </tr>
     <tr>
       <td>5</td>
-      <td>Réinvestissement, correction et évaluation des compétences de lecture, d’écriture et de débogage de requêtes.</td>
-      <td>Exercices et évaluation</td>
+      <td>S5</td>
+      <td>Jointures : relier les tables du disquaire avec <code>JOIN</code> et <code>ON</code>.</td>
+      <td>2 h</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>S6</td>
+      <td>Création et modification des données avec <code>CREATE TABLE</code>, <code>INSERT</code>, <code>UPDATE</code> et <code>DELETE</code>.</td>
+      <td>1 h à 2 h</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>S7</td>
+      <td>Réinvestissement : résolution d’exercices portant sur une table ou plusieurs tables.</td>
+      <td>2 h</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>S8</td>
+      <td>Évaluation, correction des requêtes et synthèse des notions étudiées.</td>
       <td>1 h</td>
     </tr>
   </tbody>
 </table>
 
-<p><strong>Durée indicative :</strong> environ 7 à 9 heures, à ajuster selon le temps consacré à la recherche autonome, à la correction et au niveau de la classe.</p>
+<p>La démarche générale consiste à partir d’un problème concret lié au disquaire, à lire le schéma de la base puis à traduire progressivement les besoins en requêtes SQL.</p>
+
+<p>Les premières activités portent sur une seule table. Les activités suivantes montrent ensuite pourquoi certaines informations nécessitent de croiser plusieurs tables. Enfin, les exercices de modification permettent de comprendre que les données ne sont pas figées et peuvent évoluer dans le temps.</p>
+
+<h3 id="nombre-dheures-envisagées">1.4 Nombre d’heures envisagées</h3>
+
+<p>Le volume horaire peut être estimé à <strong>7 à 9 heures</strong>, selon le temps consacré aux activités dirigées, aux travaux sur machine et à la correction.</p>
+
+<ul>
+  <li><strong>2 heures :</strong> découverte de SQLite, du schéma relationnel et des premières requêtes ;</li>
+  <li><strong>2 heures :</strong> recherches sur une seule table ;</li>
+  <li><strong>2 heures :</strong> jointures et recherches croisées ;</li>
+  <li><strong>1 heure :</strong> modification des données ;</li>
+  <li><strong>1 heure :</strong> synthèse et évaluation.</li>
+</ul>
+
+<p>Cette durée reste indicative et peut être adaptée au rythme de la classe et à son niveau d’autonomie.</p>
+
+<h3 id="éléments-dévaluation">1.5 Éléments d’évaluation</h3>
+
+<p><strong>Évaluation formative :</strong></p>
+
+<ul>
+  <li>questions courtes sur le vocabulaire du modèle relationnel ;</li>
+  <li>lecture et interprétation de requêtes SQL ;</li>
+  <li>travail sur machine avec vérification du résultat obtenu ;</li>
+  <li>observation des démarches utilisées lors des exercices ;</li>
+  <li>correction collective des erreurs de logique ou de syntaxe.</li>
+</ul>
+
+<p><strong>Évaluation sommative :</strong></p>
+
+<ul>
+  <li>exécution ou écriture de requêtes simples ;</li>
+  <li>combinaison de filtres, de tris et de jointures ;</li>
+  <li>lecture d’une requête contenant une erreur ;</li>
+  <li>explication du rôle d’une clé primaire ou d’une clé étrangère ;</li>
+  <li>compréhension d’une commande de modification des données.</li>
+</ul>
+
+<p><strong>Critères de réussite attendus en fin de séquence :</strong></p>
+
+<ul>
+  <li>écrire une requête avec projection et sélection ;</li>
+  <li>utiliser les clauses <code>WHERE</code>, <code>ORDER BY</code> et <code>LIKE</code> ;</li>
+  <li>compter des résultats ou supprimer des doublons ;</li>
+  <li>écrire une jointure simple ou plusieurs jointures entre deux tables ;</li>
+  <li>identifier les clés utilisées pour relier les tables ;</li>
+  <li>comprendre une requête d’ajout, de modification ou de suppression.</li>
+</ul>
 
 <hr>
 
-<h2>2. Séance détaillée : les jointures SQL</h2>
+<h2 id="partie-2-—-détail-dune-séquence--les-jointures-sql-séance-5">Partie 2 — Détail d’une séquence : les jointures SQL (Séance 5)</h2>
 
-<h3>2.1 Place de la séance</h3>
-<p>Cette séance intervient après les premières requêtes sur une table. Les élèves savent déjà sélectionner des colonnes et filtrer des lignes. Ils vont maintenant répondre à des questions dont les informations sont réparties dans plusieurs tables.</p>
+<h3 id="positionnement-de-la-séance">2.1 Positionnement de la séance</h3>
 
-<p>La situation s’appuie sur la base du disquaire. Par exemple, la table <code>Emprunt</code> contient des identifiants, mais les noms des clients et les titres des albums se trouvent dans d’autres tables. Une jointure est donc nécessaire pour obtenir un résultat compréhensible.</p>
+<p>Cette séance intervient après les activités sur les requêtes portant sur une seule table. Les élèves savent déjà sélectionner des colonnes avec <code>SELECT</code>, filtrer des enregistrements avec <code>WHERE</code>, rechercher un motif avec <code>LIKE</code>, trier avec <code>ORDER BY</code>, supprimer les doublons avec <code>DISTINCT</code> et compter des résultats avec <code>COUNT</code>.</p>
 
-<h3>2.2 Objectifs de la séance</h3>
-<p>À l’issue de la séance, l’élève sera capable de :</p>
+<p>La séance montre que certaines questions nécessitent de croiser les données provenant de plusieurs tables. Par exemple, la table <code>Emprunt</code> contient les identifiants des clients et des albums, tandis que les noms des clients se trouvent dans la table <code>Client</code> et les titres des albums dans la table <code>Album</code>.</p>
+
+<p><strong>Objectifs de la séance :</strong></p>
+
 <ul>
-  <li>expliquer pourquoi une requête portant sur plusieurs tables est nécessaire ;</li>
-  <li>associer les tables à l’aide des clés correspondantes ;</li>
-  <li>écrire une jointure avec <code>JOIN ... ON</code> ;</li>
-  <li>sélectionner les colonnes utiles dans le résultat ;</li>
-  <li>combiner une jointure avec un filtre ou un tri ;</li>
-  <li>repérer une condition de jointure absente ou incorrecte.</li>
+  <li>
+    <strong>L’interrogation des données :</strong>
+    savoir extraire des informations pertinentes dans une ou plusieurs tables.
+  </li>
+  <li>
+    <strong>Le croisement des données :</strong>
+    comprendre comment associer les lignes de plusieurs tables à partir de leurs clés.
+  </li>
+  <li>
+    <strong>La projection du résultat :</strong>
+    choisir uniquement les colonnes utiles avec <code>SELECT</code>.
+  </li>
+  <li>
+    <strong>Le filtrage croisé :</strong>
+    combiner une jointure avec <code>WHERE</code>, <code>LIKE</code> ou <code>ORDER BY</code>.
+  </li>
+  <li>
+    <strong>La mise à jour des données :</strong>
+    comprendre que les données peuvent être ajoutées, modifiées ou supprimées.
+  </li>
+  <li>
+    <strong>Le raisonnement critique :</strong>
+    repérer une condition de jointure absente ou incorrecte et en expliquer les conséquences.
+  </li>
 </ul>
 
-    </div>
-  </div>
+<h3 id="support-de-cours">2.2 Support de cours</h3>
+
+<ul>
+  <li><strong>Base de données d’exemple :</strong> <a href="disquaire.db"><code>disquaire.db</code></a> ;</li>
+  <li><strong>Schéma relationnel :</strong> relations entre les tables <code>Album</code>, <code>Artiste</code>, <code>Artiste_de</code>, <code>Client</code> et <code>Emprunt</code> ;</li>
+  <li><strong>Fiche de cours :</strong> page <a href="sql.html">Cours SQL</a> ;</li>
+  <li><strong>Exercices :</strong> page <a href="exercices_sql.html">Exercices SQL</a> ;</li>
+  <li><strong>Matériel :</strong> salle informatique équipée de DB Browser for SQLite ou d’un autre outil compatible avec SQLite.</li>
+</ul>
+
+<p>Le schéma simplifié utilisé dans la séance peut être représenté ainsi :</p>
+
+<pre><code>Album(id_album, titre, annee, dispo)
+Client(id_client, nom, prenom, email)
+Emprunt(id_client, id_album, jour)
+Artiste(id_artiste, nom, prenom)
+Artiste_de(id_artiste, id_album)
+</code></pre>
+
+<p>Les clés étrangères permettent de relier les tables :</p>
+
+<ul>
+  <li><code>Emprunt.id_client</code> référence <code>Client.id_client</code> ;</li>
+  <li><code>Emprunt.id_album</code> référence <code>Album.id_album</code> ;</li>
+  <li><code>Artiste_de.id_artiste</code> référence <code>Artiste.id_artiste</code> ;</li>
+  <li><code>Artiste_de.id_album</code> référence <code>Album.id_album</code>.</li>
+</ul>
+
+<p>Voici le diagramme représentant les relations de la base :</p>
+
+<p><img src="https://info-mounier.fr/terminale_nsi/base_de_donnees/data/diagramme_bdd.png" alt="Diagramme de la base du disquaire"></p>
+
+<h3 id="exercices-envisagés">2.3 Exercices envisagés</h3>
+
+<p><strong>Exercice 1 — BDD du disquaire : requêtes portant sur une table</strong></p>
+
+<p>Cet exercice permet de réviser les principales requêtes portant sur une seule table :</p>
+
+<ul>
+  <li>sélectionner toutes les colonnes ou seulement certaines colonnes ;</li>
+  <li>filtrer les lignes avec <code>WHERE</code> ;</li>
+  <li>trier les résultats ;</li>
+  <li>supprimer les doublons ;</li>
+  <li>compter les enregistrements ;</li>
+  <li>effectuer une recherche par motif avec <code>LIKE</code>.</li>
+</ul>
+
+<p><strong>Exercice 2 — BDD du disquaire : requêtes croisées</strong></p>
+
+<p>Cet exercice introduit les jointures. Les élèves doivent notamment :</p>
+
+<ul>
+  <li>afficher les coordonnées des clients ayant un emprunt en cours ;</li>
+  <li>relier les tables <code>Emprunt</code> et <code>Client</code> ;</li>
+  <li>ajouter la table <code>Album</code> pour afficher les titres des albums empruntés ;</li>
+  <li>croiser les tables <code>Album</code>, <code>Artiste</code> et <code>Artiste_de</code> ;</li>
+  <li>utiliser une jointure avec un filtre ou un tri.</li>
+</ul>
+
+<p><strong>Exercice 3 — Modifier une table</strong></p>
+
+<p>Cet exercice présente les principes de création et de modification des données :</p>
+
+<ul>
+  <li>créer une table avec <code>CREATE TABLE</code> ;</li>
+  <li>spécifier les noms et types des attributs ;</li>
+  <li>indiquer une clé primaire ;</li>
+  <li>comprendre les requêtes d’ajout, de modification et de suppression.</li>
+</ul>
+
+<p><strong>Exercice 4 — Modification de la base du disquaire</strong></p>
+
+<p>Cet exercice permet de mettre en pratique les commandes <code>INSERT INTO</code>, <code>UPDATE</code> et <code>DELETE FROM</code>, tout en respectant les contraintes d’intégrité des données.</p>
+
+<h3 id="mode-de-travail">2.4 Mode de travail</h3>
+
+<p>La séance combine recherche guidée, travail sur machine et mise en commun :</p>
+
+<ul>
+  <li>
+    <strong>Réactivation des acquis — 10 minutes :</strong>
+    rappel de la différence entre projection et sélection, puis présentation d’une question nécessitant plusieurs tables.
+  </li>
+  <li>
+    <strong>Lecture du schéma — 15 minutes :</strong>
+    les élèves repèrent les clés permettant de relier les tables entre elles.
+  </li>
+  <li>
+    <strong>Première jointure — 20 minutes :</strong>
+    construction guidée d’une requête reliant <code>Emprunt</code> et <code>Client</code>.
+  </li>
+  <li>
+    <strong>Cœur de séance — 50 minutes :</strong>
+    travail en binômes sur l’exercice 2. Les élèves testent leurs requêtes dans SQLite, comparent les résultats attendus et corrigent leurs erreurs.
+  </li>
+  <li>
+    <strong>Mise en commun — 15 minutes :</strong>
+    un binôme présente une requête avec une ou plusieurs jointures au vidéoprojecteur. La classe vérifie les tables utilisées et les conditions de jointure.
+  </li>
+  <li>
+    <strong>Synthèse — 10 minutes :</strong>
+    conclusion sur la construction d’une requête SQL avec plusieurs tables.
+  </li>
+</ul>
+
+<p>Ce dispositif privilégie la pédagogie de découverte et l’entraînement progressif. Il prépare les élèves à choisir eux-mêmes les tables nécessaires pour répondre à un besoin formulé en langage naturel.</p>
+
+<h3 id="extraits-de-devoir-permettant-dévaluer-lassimilation-de-la-séance">2.5 Extraits de devoir permettant d’évaluer l’assimilation de la séance</h3>
+
+<p><strong>Extrait 1 — Requêtes portant sur plusieurs tables</strong></p>
+
+<p>On considère les tables suivantes :</p>
+
+<pre><code>Album(id_album, titre, annee, dispo)
+Client(id_client, nom, prenom, email)
+Emprunt(id_client, id_album, jour)
+</code></pre>
+
+<p>Exécutez mentalement ou avec SQLite la requête suivante :</p>
+
+<pre><code>SELECT Emprunt.id_album, Client.nom, Client.prenom
+FROM Emprunt
+JOIN Client ON Emprunt.id_client = Client.id_client;
+</code></pre>
+
+<p>Répondez aux questions suivantes :</p>
+
+<ol>
+  <li>Quelles tables sont utilisées ?</li>
+  <li>Quelle est l’information obtenue ?</li>
+  <li>À quoi sert la condition placée après <code>ON</code> ?</li>
+  <li>Que se passerait-il si l’on supprimait cette condition de jointure ?</li>
+</ol>
+
+<p><strong>Extrait 2 — Écriture de requêtes</strong></p>
+
+<p>À partir du schéma relationnel du disquaire :</p>
+
+<ul>
+  <li><code>Album(id_album, titre, annee, dispo)</code> ;</li>
+  <li><code>Client(id_client, nom, prenom, email)</code> ;</li>
+  <li><code>Emprunt(id_client, id_album, jour)</code>.</li>
+</ul>
+
+<p>Écrire les requêtes permettant de :</p>
+
+<ol>
+  <li>afficher le titre et l’année de sortie des albums sortis entre 2005 et 2015 ;</li>
+  <li>insérer un nouvel artiste nommé Bob Dylan dans la table <code>Artiste</code> ;</li>
+  <li>afficher les titres des albums empruntés ainsi que le nom et le prénom du client correspondant.</li>
+</ol>
+
+<p><strong>Extrait 3 — Débogage</strong></p>
+
+<p>Un élève souhaite afficher le titre des albums et le nom des artistes qui les interprètent. Il propose la requête suivante :</p>
+
+<pre><code>SELECT Album.titre, Artiste.nom
+FROM Album
+JOIN Artiste ON Album.id_album = Artiste.id_artiste;
+</code></pre>
+
+<p>Identifier l’erreur de logique, expliquer pourquoi la requête ne relie pas correctement les tables concernées, puis proposer une correction utilisant la table intermédiaire <code>Artiste_de</code>.</p>
+
+<p><strong>Extrait 4 — Compréhension des contraintes d’intégrité</strong></p>
+
+<p>On tente d’exécuter la commande suivante :</p>
+
+<pre><code>DELETE FROM Client
+WHERE id_client = 1;
+</code></pre>
+
+<p>Le système renvoie le message suivant : <code>FOREIGN KEY constraint failed</code>.</p>
+
+<p>Expliquer pourquoi la suppression est refusée et quelle contrainte d’intégrité est ainsi préservée.</p>
+
+<p><strong>Grille de compétences évaluées</strong> :</p>
+
+<table class="styled-table">
+  <thead>
+    <tr>
+      <th>Compétence</th>
+      <th>Extrait</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Lire et modéliser un schéma relationnel</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Écrire une requête simple ou une jointure</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Évaluer et corriger une requête</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Expliquer une contrainte d’intégrité</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
 
 
 
