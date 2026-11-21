@@ -17,9 +17,9 @@
   /* Valeurs alternatives : left (gauche), center (centré), right (droite) */
 }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
+#1b6ca8
   :root {
-    --mer: #1b6ca8;
+    --mer: #3aa5d8;
     --mer-clair: #3aa5d8;
     --sable: #f6efe4;
     --soleil: #f2a541;
